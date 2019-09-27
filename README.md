@@ -182,3 +182,31 @@ pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
 #> [4,] "2005"  "59"       
 #> [5,] "Total" "307"
 ```
+
+## Database connections
+
+``` r
+library(DBI)
+library(RSQLite)
+
+con <- dbConnect(SQLite(), ":memory:")
+
+tbl_sales <- copy_to(con, sales)
+
+tbl_sales %>%
+  rows(status) %>%
+  columns(year_id) %>%
+  values(sum(sales, na.rm = TRUE))
+#>             2003        2004              2005        Total             
+#> Cancelled     48710.92         145776.56                     194487.48  
+#> Disputed                                    72212.86          72212.86  
+#> In Process                                 144729.96         144729.96  
+#> On Hold                         26260.21   152718.98         178979.19  
+#> Resolved      28550.59          24078.61    98089.08         150718.28  
+#> Shipped     3439718.03  4528047.21999999  1323735.83  9291501.07999999  
+#> Total       3516979.54  4724162.59999999  1791486.71       10032628.85
+```
+
+``` r
+dbDisconnect(con)
+```

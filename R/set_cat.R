@@ -18,6 +18,14 @@ set_cat.data.frame <- function(.data, atr = "", ...) {
 }
 
 #' @export
+set_cat.tbl <- function(.data, atr = "", ...) {
+  pt <- pivot_table()
+  pt$src <- .data
+  pt[[atr]] <- name_quos(...)
+  pt
+}
+
+#' @export
 set_cat.pivot_table <- function(.data, atr = "", ...) {
   .data[[atr]] <- name_quos(...)
   .data

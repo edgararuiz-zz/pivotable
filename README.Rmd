@@ -11,8 +11,10 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
-
+library(pivotable)
 library(dplyr)
+library(DBI)
+library(RSQLite)
 ```
 
 # pivotable
@@ -121,4 +123,28 @@ pt <- orders %>%
 
 pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
 ```
+
+
+## Database connections
+
+```{r}
+library(DBI)
+library(RSQLite)
+
+con <- dbConnect(SQLite(), ":memory:")
+
+tbl_sales <- copy_to(con, sales)
+
+tbl_sales %>%
+  rows(status) %>%
+  columns(year_id) %>%
+  values(sum(sales, na.rm = TRUE))
+```
+
+
+```{r}
+dbDisconnect(con)
+```
+
+
 

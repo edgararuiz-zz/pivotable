@@ -33,6 +33,7 @@ to_pivottabler.pivot_table <- function(x) {
   }
   grp_tbl <- summarise(grp_tbl, !!! x$values)
   grp_tbl <- ungroup(grp_tbl)
+  grp_tbl <- collect(grp_tbl)
 
   row_names <- names(rows)
   col_names <- names(columns)
