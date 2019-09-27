@@ -46,7 +46,7 @@ sales %>%
 ```{r}
 sales %>%
   rows(status) %>%
-  values(sum(sales))
+  values(sum(sales)) 
 ```
 
 
@@ -98,8 +98,7 @@ orders %>%
 
 ```{r}
 orders %>%
-  rows(status) %>%
-  columns(order_date) %>%
+  rows(order_date) %>%
   values(sales_amount) 
 ```
 
@@ -111,4 +110,15 @@ orders %>%
   drill(order_date)
 ```
 
+## pivottabler
+
+
+```{r}
+pt <- orders %>%
+  rows(order_date) %>%
+  values(no_orders) %>%
+  to_pivottabler()
+
+pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
+```
 

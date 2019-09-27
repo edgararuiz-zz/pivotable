@@ -37,7 +37,7 @@ sales %>%
 ``` r
 sales %>%
   rows(status) %>%
-  values(sum(sales))
+  values(sum(sales)) 
 #>             sum(sales)   
 #> Cancelled     194487.48  
 #> Disputed       72212.86  
@@ -114,17 +114,13 @@ orders %>%
 
 ``` r
 orders %>%
-  rows(status) %>%
-  columns(order_date) %>%
+  rows(order_date) %>%
   values(sales_amount) 
-#>             2003        2004        2005        Total       
-#> Cancelled            0           0                       0  
-#> Disputed                                     0           0  
-#> In Process                           144729.96   144729.96  
-#> On Hold                          0           0           0  
-#> Resolved             0           0           0           0  
-#> Shipped     3439718.03  4528047.22  1323735.83  9291501.08  
-#> Total       3439718.03  4528047.22  1468465.79  9436231.04
+#>        sales_amount  
+#> 2003     3439718.03  
+#> 2004     4528047.22  
+#> 2005     1468465.79  
+#> Total    9436231.04
 ```
 
 ``` r
@@ -166,4 +162,21 @@ orders %>%
 #>        5         363344.18  
 #>        Total    1468465.79  
 #> Total           9436231.04
+```
+
+## pivottabler
+
+``` r
+pt <- orders %>%
+  rows(order_date) %>%
+  values(no_orders) %>%
+  to_pivottabler()
+
+pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
+#>      [,1]    [,2]       
+#> [1,] ""      "no_orders"
+#> [2,] "2003"  "104"      
+#> [3,] "2004"  "144"      
+#> [4,] "2005"  "59"       
+#> [5,] "Total" "307"
 ```
