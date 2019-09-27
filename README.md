@@ -28,87 +28,142 @@ install.packages("pivotable")
 library(dplyr)
 library(pivotable)
 
-mtcars %>%
-  values(sum(mpg))
-#>   sum(mpg)  
-#>      642.9
-
-mtcars %>%
-  values(sum(mpg)) %>%
-  rows(am) 
-#>        sum(mpg)  
-#> 0         325.8  
-#> 1         317.1  
-#> Total     642.9
+sales %>%
+  values(sum(sales))
+#>   sum(sales)   
+#>   10032628.85
 ```
 
 ``` r
-mtcars %>%
-  rows(am) %>%
-  columns(cyl) %>%
-  values(sum(mpg))
-#>        4      6      8      Total  
-#> 0       68.7   76.5  180.6  325.8  
-#> 1      224.6   61.7   30.8  317.1  
-#> Total  293.3  138.2  211.4  642.9
+sales %>%
+  rows(status) %>%
+  values(sum(sales))
+#>             sum(sales)   
+#> Cancelled     194487.48  
+#> Disputed       72212.86  
+#> In Process    144729.96  
+#> On Hold       178979.19  
+#> Resolved      150718.28  
+#> Shipped      9291501.08  
+#> Total       10032628.85
+```
 
-mtcars %>%
-  rows(am) %>%
-  columns(cyl) %>%
-  values(sum(mpg)) %>%
+``` r
+sales %>%
+  rows(status) %>%
+  columns(year_id) %>%
+  values(sum(sales))
+#>             2003        2004        2005        Total        
+#> Cancelled     48710.92   145776.56                194487.48  
+#> Disputed                              72212.86     72212.86  
+#> In Process                           144729.96    144729.96  
+#> On Hold                   26260.21   152718.98    178979.19  
+#> Resolved      28550.59    24078.61    98089.08    150718.28  
+#> Shipped     3439718.03  4528047.22  1323735.83   9291501.08  
+#> Total       3516979.54   4724162.6  1791486.71  10032628.85
+```
+
+``` r
+sales %>%
+  rows(status) %>%
+  columns(year_id) %>%
+  values(sum(sales)) %>%
   pivot()
-#>        0      1      Total  
-#> 4       68.7  224.6  293.3  
-#> 6       76.5   61.7  138.2  
-#> 8      180.6   30.8  211.4  
-#> Total  325.8  317.1  642.9
+#>        Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        
+#> 2003    48710.92                                    28550.59  3439718.03   3516979.54  
+#> 2004   145776.56                         26260.21   24078.61  4528047.22    4724162.6  
+#> 2005              72212.86   144729.96  152718.98   98089.08  1323735.83   1791486.71  
+#> Total  194487.48  72212.86   144729.96  178979.19  150718.28  9291501.08  10032628.85
 ```
 
-``` r
-mtcars %>%
-  rows(am, cyl) %>%
-  values(n())
-#>               n()  
-#> 0      4        3  
-#>        6        4  
-#>        8       12  
-#>        Total   19  
-#> 1      4        8  
-#>        6        3  
-#>        8        2  
-#>        Total   13  
-#> Total          32
-```
+## Dimensions and Measures
 
 ``` r
-car_pivot <- mtcars %>%
+orders <- sales %>%
+  group_by(ordernumber, country, year_id, month_id, customername, state, status) %>% 
+  summarise(order_sale = sum(sales)) %>%
+  ungroup() %>%
   start_pivot_prep() %>%
   dimensions(
-    transmission = am,
-    cylinder = cyl
+    order_date = dim_hierarchy(
+      year_id,
+      month_id      
+    ),
+    status, 
+    country
   ) %>%
   measures(
-    no_vehicles = n(),
-    avg_miles = mean(mpg)
-  )
+    no_orders = n(), 
+    order_amount = sum(order_sale),
+    no_sales = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
+    sales_amount = sum(ifelse(status %in% c("In Process", "Shipped"), order_sale, 0))
+    )
+```
 
-car_pivot %>%
-  rows(transmission) %>%
-  columns(cylinder) %>%
-  values(no_vehicles)
-#>        4   6  8   Total  
-#> 0       3  4  12     19  
-#> 1       8  3   2     13  
-#> Total  11  7  14     32
+``` r
+orders %>%
+  rows(status)
+#> Cancelled     
+#> Disputed      
+#> In Process    
+#> On Hold       
+#> Resolved      
+#> Shipped       
+#> Total
+```
 
-car_pivot %>%
-  rows(transmission) %>%
-  columns(cylinder) %>%
-  values(no_vehicles) %>%
-  pivot()
-#>        0   1   Total  
-#> 4       3   8     11  
-#> 6       4   3      7  
-#> 8      12   2     14  
-#> Total  19  13     32
+``` r
+orders %>%
+  rows(status) %>%
+  columns(order_date) %>%
+  values(sales_amount) 
+#>             2003        2004        2005        Total       
+#> Cancelled            0           0                       0  
+#> Disputed                                     0           0  
+#> In Process                           144729.96   144729.96  
+#> On Hold                          0           0           0  
+#> Resolved             0           0           0           0  
+#> Shipped     3439718.03  4528047.22  1323735.83  9291501.08  
+#> Total       3439718.03  4528047.22  1468465.79  9436231.04
+```
+
+``` r
+orders %>%
+  rows(order_date) %>%
+  values(sales_amount) %>%
+  drill(order_date)
+#>               sales_amount  
+#> 2003   1          129753.6  
+#>        2         140836.19  
+#>        3          174504.9  
+#>        4         201609.55  
+#>        5         192673.11  
+#>        6         168082.56  
+#>        7         187731.88  
+#>        8          197809.3  
+#>        9         263973.36  
+#>        10        491029.46  
+#>        11       1029837.66  
+#>        12        261876.46  
+#>        Total    3439718.03  
+#> 2004   1         316577.42  
+#>        2         311419.53  
+#>        3         205733.73  
+#>        4         206148.12  
+#>        5         228080.73  
+#>        6         186255.32  
+#>        7         327144.09  
+#>        8         461501.27  
+#>        9         320750.91  
+#>        10        552924.25  
+#>        11       1038709.19  
+#>        12        372802.66  
+#>        Total    4528047.22  
+#> 2005   1         295270.06  
+#>        2         358186.18  
+#>        3         320447.04  
+#>        4         131218.33  
+#>        5         363344.18  
+#>        Total    1468465.79  
+#> Total           9436231.04
 ```

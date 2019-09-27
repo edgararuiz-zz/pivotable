@@ -7,8 +7,7 @@ pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL){
       rows = rows,
       columns = columns,
       values = values,
-      src = src,
-      res = NULL
+      level = list()
     ),
     class = "pivot_table"
   )
@@ -16,16 +15,18 @@ pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL){
 
 create_table <- function(x) {
   grp_tbl <- x$src
-  if(!is.null(x$rows) | !is.null(x$columns)) {
-    grp_tbl <-  group_by(x$src, !!! c(x$rows, x$columns))
+  rows <- get_dim_quo(x$rows, x$level)
+  columns <- get_dim_quo(x$columns, x$level)
+  if(!is.null(rows) | !is.null(columns)) {
+    grp_tbl <-  group_by(x$src, !!! c(rows, columns))
   }
-  grp_tbl <- summarise(grp_tbl, !!! x$values)
+  grp_tbl <- summarise(grp_tbl, !!! values)
   grp_tbl <- ungroup(grp_tbl)
-  if(!is.null(x$columns)) {
+  if(!is.null(columns)) {
     pivot_wider(
       grp_tbl,
-      names_from = names(x$columns),
-      values_from =  names(x$values)
+      names_from = names(columns),
+      values_from =  names(values)
     )
   }  else {
     grp_tbl
@@ -34,14 +35,17 @@ create_table <- function(x) {
 
 to_pivottabler <- function(x) {
   grp_tbl <- x$src
-  if(!is.null(x$rows) | !is.null(x$columns)) {
-    grp_tbl <-  group_by(x$src, !!! c(x$rows, x$columns))
+  rows <- get_dim_quo(x$rows, x$level)
+  columns <- get_dim_quo(x$columns, x$level)
+
+  if(!is.null(rows) | !is.null(columns)) {
+    grp_tbl <-  group_by(x$src, !!! c(rows, columns))
   }
   grp_tbl <- summarise(grp_tbl, !!! x$values)
   grp_tbl <- ungroup(grp_tbl)
 
-  row_names <- names(x$rows)
-  col_names <- names(x$columns)
+  row_names <- names(rows)
+  col_names <- names(columns)
   val_names <- names(x$values)
 
   pt <- pivottabler::PivotTable$new()
@@ -121,6 +125,60 @@ values <- function(.data, ...) {
 }
 
 #' @export
+drill <- function(.data, ...) {
+  set_drill(.data, ...)
+}
+
+set_drill <- function(.data, ...) {
+  UseMethod("set_drill")
+}
+
+set_drill.pivot_prep <- function(.data, ...) {
+  set_drill(.data$.pivot_table, ...)
+}
+
+set_drill.pivot_table <- function(.data, ...) {
+  vars <- enquos(...)
+  fields <- lapply(vars, function(x) as_label(x))
+  fields <- as.character(fields)
+  .data$level <- c(.data$level, fields)
+  .data
+}
+
+#' @export
 pivot <- function(.data, atr = "", ...) {
   UseMethod("pivot")
+}
+
+get_dim_quo <- function(x, level) {
+  dim_classes <- as.character(
+    lapply(x,function(y) class(rlang::quo_squash(y)))
+  )
+  dc <- quos()
+  for(i in seq_along(dim_classes)) {
+    if(dim_classes[i] == "call") {
+      fd <- eval(rlang::quo_squash(x[[i]]))
+      lvs <-  sum(level == names(x)) + 1
+      ts <- quos()
+      for(j in seq_len(lvs)) {
+        ts <- c(ts, name_quos(!!! fd[j]))
+      }
+      dc <- c(dc, ts)
+    } else {
+      dc <- c(dc, x[i])
+    }
+  }
+  if(length(dc) == 0) {
+    return(NULL)
+  } else {
+    dc
+  }
+}
+
+#' @export
+dim_hierarchy <- function(...) {
+  structure(
+    enquos(...),
+    class = "dim_hierarchy"
+  )
 }

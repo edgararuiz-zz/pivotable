@@ -53,8 +53,11 @@ set_cat.pivot_prep <- function(.data, atr = "", ...) {
   .data$.pivot_table$src <- .data$.struct$src
   nv <- lapply(
     as.list(vars),
-    function(x) setNames(list(.data[[as_label(x)]]), as.character(as_label(x)))
-  )
+    function(x)
+      setNames(
+        list(.data[[as_label(x)]]),
+        as.character(as_label(x))
+        ))
   nvt <- NULL
   for(i in seq_along(nv)){ nvt <- c(nvt, nv[[i]])}
   .data$.pivot_table[[atr]] <- nvt

@@ -38,56 +38,77 @@ install.packages("pivotable")
 library(dplyr)
 library(pivotable)
 
-mtcars %>%
-  values(sum(mpg))
-
-mtcars %>%
-  values(sum(mpg)) %>%
-  rows(am) 
+sales %>%
+  values(sum(sales))
 ```
 
 
 ```{r}
-mtcars %>%
-  rows(am) %>%
-  columns(cyl) %>%
-  values(sum(mpg))
+sales %>%
+  rows(status) %>%
+  values(sum(sales))
+```
 
-mtcars %>%
-  rows(am) %>%
-  columns(cyl) %>%
-  values(sum(mpg)) %>%
+
+```{r}
+sales %>%
+  rows(status) %>%
+  columns(year_id) %>%
+  values(sum(sales))
+```
+
+
+```{r}
+sales %>%
+  rows(status) %>%
+  columns(year_id) %>%
+  values(sum(sales)) %>%
   pivot()
 ```
 
-```{r}
-mtcars %>%
-  rows(am, cyl) %>%
-  values(n())
-```
 
+## Dimensions and Measures
 
 ```{r}
-car_pivot <- mtcars %>%
+orders <- sales %>%
+  group_by(ordernumber, country, year_id, month_id, customername, state, status) %>% 
+  summarise(order_sale = sum(sales)) %>%
+  ungroup() %>%
   start_pivot_prep() %>%
   dimensions(
-    transmission = am,
-    cylinder = cyl
+    order_date = dim_hierarchy(
+      year_id,
+      month_id      
+    ),
+    status, 
+    country
   ) %>%
   measures(
-    no_vehicles = n(),
-    avg_miles = mean(mpg)
-  )
-
-car_pivot %>%
-  rows(transmission) %>%
-  columns(cylinder) %>%
-  values(no_vehicles)
-
-car_pivot %>%
-  rows(transmission) %>%
-  columns(cylinder) %>%
-  values(no_vehicles) %>%
-  pivot()
+    no_orders = n(), 
+    order_amount = sum(order_sale),
+    no_sales = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
+    sales_amount = sum(ifelse(status %in% c("In Process", "Shipped"), order_sale, 0))
+    )
 ```
+
+```{r}
+orders %>%
+  rows(status)
+```
+
+```{r}
+orders %>%
+  rows(status) %>%
+  columns(order_date) %>%
+  values(sales_amount) 
+```
+
+
+```{r}
+orders %>%
+  rows(order_date) %>%
+  values(sales_amount) %>%
+  drill(order_date)
+```
+
 
