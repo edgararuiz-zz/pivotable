@@ -1,3 +1,17 @@
+#' Coerce to a pivottabler object
+#'
+#' @param x A pivot_prep or pivot_table object
+#'
+#' @examples
+#'
+#' pt <- sales %>%
+#'   rows(status) %>%
+#'   columns(year_id) %>%
+#'   values(n()) %>%
+#'   to_pivottabler()
+#'
+#' pt$asMatrix()
+#'
 #' @export
 to_pivottabler <- function(x) {
   UseMethod("to_pivottabler")

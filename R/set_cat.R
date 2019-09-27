@@ -1,8 +1,15 @@
+#' Internal function for creating pivot tables
+#'
+#' @param .data data.frame, pivot_prep or pivot_table object
+#' @param atr String value: columns, rows, or values
+#' @param ... Variables or named variables
+#'
 #' @export
 set_cat <- function(.data, atr = "", ...) {
   UseMethod("set_cat")
 }
 
+#' @export
 set_cat.data.frame <- function(.data, atr = "", ...) {
   pt <- pivot_table()
   pt$src <- .data
@@ -10,10 +17,29 @@ set_cat.data.frame <- function(.data, atr = "", ...) {
   pt
 }
 
+#' @export
 set_cat.pivot_table <- function(.data, atr = "", ...) {
   .data[[atr]] <- name_quos(...)
   .data
 }
+
+#' @export
+set_cat.pivot_prep <- function(.data, atr = "", ...) {
+  vars <- enquos(...)
+  .data$.pivot_table$src <- .data$.struct$src
+  nv <- lapply(
+    as.list(vars),
+    function(x)
+      setNames(
+        list(.data[[as_label(x)]]),
+        as.character(as_label(x))
+      ))
+  nvt <- NULL
+  for(i in seq_along(nv)){ nvt <- c(nvt, nv[[i]])}
+  .data$.pivot_table[[atr]] <- nvt
+  .data
+}
+
 
 name_quos <- function(...) {
   vars <- as.list(enquos(...))
@@ -51,12 +77,3 @@ get_dim_quo <- function(x, level) {
     dc
   }
 }
-
-#' @export
-dim_hierarchy <- function(...) {
-  structure(
-    enquos(...),
-    class = "dim_hierarchy"
-  )
-}
-
