@@ -22,8 +22,6 @@ library(dplyr)
 [![CRAN status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.org/package=pivotable)
 <!-- badges: end -->
 
-The goal of pivotable is to ...
-
 ## Installation
 
 You can install the released version of pivotable from [CRAN](https://CRAN.R-project.org) with:

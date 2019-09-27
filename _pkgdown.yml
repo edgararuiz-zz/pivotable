@@ -1,1 +1,18 @@
 destination: docs
+
+reference:
+  - title: Pivot table
+    contents:
+    - rows
+    - columns
+    - values
+    - drill
+    - pivot
+  - title: Pivot design
+    contents:
+    - dimensions
+    - measures
+    - dim_hierarchy
+  - title: Pivot table output
+    contents:
+    - to_pivottabler

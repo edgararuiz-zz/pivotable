@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Develop grouping categories for pivot tables — dimensions • pivotable</title>
+<title>Pipe operator — %&gt;% • pivotable</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Develop grouping categories for pivot tables — dimensions" />
-<meta property="og:description" content="Develop grouping categories for pivot tables" />
+<meta property="og:title" content="Pipe operator — %&gt;%" />
+<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,48 +105,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Develop grouping categories for pivot tables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot_prep.R'><code>R/pivot_prep.R</code></a></small>
-    <div class="hidden name"><code>dimensions.Rd</code></div>
+    <h1>Pipe operator</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
+    <div class="hidden name"><code>pipe.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Develop grouping categories for pivot tables</p>
+    <p>See <code>magrittr::%&gt;%</code> for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dimensions</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A pivot_prep object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>A set of variable or named variables</p></td>
-    </tr>
-    </table>
+    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sales_pivot</span> <span class='kw'>&lt;-</span> <span class='no'>sales</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='start_pivot_prep.html'>start_pivot_prep</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'>dimensions</span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'><a href='dim_hierarchy.html'>dim_hierarchy</a></span>(<span class='no'>year_id</span>, <span class='no'>month_id</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='measures.html'>measures</a></span>(<span class='kw'>no_orders</span> <span class='kw'>=</span> <span class='fu'>n</span>(), <span class='kw'>total_orders</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>))
 
-<span class='no'>sales_pivot</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='no'>order_date</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='values.html'>values</a></span>(<span class='no'>total_orders</span>)</div><div class='output co'>#&gt;   2003        2004       2005        Total        
-#&gt;   3516979.54  4724162.6  1791486.71  10032628.85  </div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
