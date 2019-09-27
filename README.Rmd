@@ -42,9 +42,12 @@ mtcars %>%
   values(sum(mpg))
 
 mtcars %>%
-  rows(am) %>%
-  values(sum(mpg))
+  values(sum(mpg)) %>%
+  rows(am) 
+```
 
+
+```{r}
 mtcars %>%
   rows(am) %>%
   columns(cyl) %>%
@@ -56,6 +59,13 @@ mtcars %>%
   values(sum(mpg)) %>%
   pivot()
 ```
+
+```{r}
+mtcars %>%
+  rows(am, cyl) %>%
+  values(n())
+```
+
 
 ```{r}
 car_pivot <- mtcars %>%

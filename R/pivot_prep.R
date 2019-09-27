@@ -44,7 +44,7 @@ print.pivot_prep <- function(x, ...) {
   if(is.null(x$.pivot_table$src)) {
     print("pivot_prep")
   } else {
-    print(create_table(x$.pivot_table))
+    print(to_pivottabler(x$.pivot_table))
   }
 }
 

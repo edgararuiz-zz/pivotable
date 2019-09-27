@@ -1,5 +1,5 @@
 #' @importFrom tidyr pivot_wider
-
+#' @import pivottabler
 
 pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL){
   structure(
@@ -32,6 +32,36 @@ create_table <- function(x) {
   }
 }
 
+to_pivottabler <- function(x) {
+  grp_tbl <- x$src
+  if(!is.null(x$rows) | !is.null(x$columns)) {
+    grp_tbl <-  group_by(x$src, !!! c(x$rows, x$columns))
+  }
+  grp_tbl <- summarise(grp_tbl, !!! x$values)
+  grp_tbl <- ungroup(grp_tbl)
+
+  row_names <- names(x$rows)
+  col_names <- names(x$columns)
+  val_names <- names(x$values)
+
+  pt <- pivottabler::PivotTable$new()
+  pt$addData(grp_tbl)
+  if(!is.null(col_names))
+    for(i in seq_along(col_names)) pt$addColumnDataGroups(col_names[i])
+  if(!is.null(row_names))
+    for(i in seq_along(row_names)) pt$addRowDataGroups(row_names[i])
+  if(!is.null(val_names)) {
+    for(i in seq_along(val_names)) {
+      pt$defineCalculation(
+        calculationName = val_names,
+        summariseExpression = paste0("sum(`", val_names, "`)")
+      )
+    }
+  }
+  pt$evaluatePivot()
+  pt
+}
+
 #' @export
 pivot.pivot_table <- function(.data, ...) {
   rws <- .data$rows
@@ -43,7 +73,7 @@ pivot.pivot_table <- function(.data, ...) {
 
 #' @export
 print.pivot_table <- function(x, ...) {
-  print(create_table(x))
+  print(to_pivottabler(x))
 }
 
 #' @export

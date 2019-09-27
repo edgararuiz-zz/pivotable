@@ -30,39 +30,54 @@ library(pivotable)
 
 mtcars %>%
   values(sum(mpg))
-#>   sum(mpg)
-#> 1    642.9
+#>   sum(mpg)  
+#>      642.9
 
 mtcars %>%
-  rows(am) %>%
-  values(sum(mpg))
-#> # A tibble: 2 x 2
-#>      am `sum(mpg)`
-#>   <dbl>      <dbl>
-#> 1     0       326.
-#> 2     1       317.
+  values(sum(mpg)) %>%
+  rows(am) 
+#>        sum(mpg)  
+#> 0         325.8  
+#> 1         317.1  
+#> Total     642.9
+```
 
+``` r
 mtcars %>%
   rows(am) %>%
   columns(cyl) %>%
   values(sum(mpg))
-#> # A tibble: 2 x 4
-#>      am   `4`   `6`   `8`
-#>   <dbl> <dbl> <dbl> <dbl>
-#> 1     0  68.7  76.5 181. 
-#> 2     1 225.   61.7  30.8
+#>        4      6      8      Total  
+#> 0       68.7   76.5  180.6  325.8  
+#> 1      224.6   61.7   30.8  317.1  
+#> Total  293.3  138.2  211.4  642.9
 
 mtcars %>%
   rows(am) %>%
   columns(cyl) %>%
   values(sum(mpg)) %>%
   pivot()
-#> # A tibble: 3 x 3
-#>     cyl   `0`   `1`
-#>   <dbl> <dbl> <dbl>
-#> 1     4  68.7 225. 
-#> 2     6  76.5  61.7
-#> 3     8 181.   30.8
+#>        0      1      Total  
+#> 4       68.7  224.6  293.3  
+#> 6       76.5   61.7  138.2  
+#> 8      180.6   30.8  211.4  
+#> Total  325.8  317.1  642.9
+```
+
+``` r
+mtcars %>%
+  rows(am, cyl) %>%
+  values(n())
+#>               n()  
+#> 0      4        3  
+#>        6        4  
+#>        8       12  
+#>        Total   19  
+#> 1      4        8  
+#>        6        3  
+#>        8        2  
+#>        Total   13  
+#> Total          32
 ```
 
 ``` r
@@ -81,21 +96,19 @@ car_pivot %>%
   rows(transmission) %>%
   columns(cylinder) %>%
   values(no_vehicles)
-#> # A tibble: 2 x 4
-#>   transmission   `4`   `6`   `8`
-#>          <dbl> <int> <int> <int>
-#> 1            0     3     4    12
-#> 2            1     8     3     2
+#>        4   6  8   Total  
+#> 0       3  4  12     19  
+#> 1       8  3   2     13  
+#> Total  11  7  14     32
 
 car_pivot %>%
   rows(transmission) %>%
   columns(cylinder) %>%
   values(no_vehicles) %>%
   pivot()
-#> # A tibble: 3 x 3
-#>   cylinder   `0`   `1`
-#>      <dbl> <int> <int>
-#> 1        4     3     8
-#> 2        6     4     3
-#> 3        8    12     2
+#>        0   1   Total  
+#> 4       3   8     11  
+#> 6       4   3      7  
+#> 8      12   2     14  
+#> Total  19  13     32
 ```
