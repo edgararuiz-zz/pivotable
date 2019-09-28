@@ -72,11 +72,16 @@ sales %>%
 ## Dimensions and Measures
 
 ```{r}
-orders <- sales %>%
+sale_orders <- sales %>%
   group_by(ordernumber, country, year_id, month_id, customername, state, status) %>% 
   summarise(order_sale = sum(sales)) %>%
-  ungroup() %>%
-  start_pivot_prep() %>%
+  ungroup()
+
+sale_orders
+```
+
+```{r}
+orders <- sale_orders %>%
   dimensions(
     order_date = dim_hierarchy(
       year_id,
@@ -97,6 +102,16 @@ orders <- sales %>%
 orders %>%
   rows(status)
 ```
+
+```{r}
+orders %>%
+  rows(status) %>%
+  columns(order_date) %>%
+  values(sales_amount)
+```
+
+
+### Drill
 
 ```{r}
 orders %>%

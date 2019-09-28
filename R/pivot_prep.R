@@ -9,27 +9,6 @@ pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL){
   structure(struc, class = "pivot_prep")
 }
 
-#' Initialize a pivot data object
-#'
-#' @param .data A data.frame or tbl object
-#'
-#' @examples
-#' sales_pivot <- sales %>%
-#'   start_pivot_prep() %>%
-#'   dimensions(order_date = dim_hierarchy(year_id, month_id)) %>%
-#'   measures(no_orders = n(), total_orders = sum(sales))
-#'
-#' sales_pivot %>%
-#'   columns(order_date) %>%
-#'   values(total_orders)
-#'
-#' @export
-start_pivot_prep <- function(.data) {
-  x <- pivot_prep()
-  x$.struct$src <- .data
-  x
-}
-
 #' Develop grouping categories for pivot tables
 #'
 #' @param x A pivot_prep object
@@ -37,7 +16,6 @@ start_pivot_prep <- function(.data) {
 #'
 #' @examples
 #' sales_pivot <- sales %>%
-#'   start_pivot_prep() %>%
 #'   dimensions(order_date = dim_hierarchy(year_id, month_id)) %>%
 #'   measures(no_orders = n(), total_orders = sum(sales))
 #'
@@ -49,8 +27,8 @@ start_pivot_prep <- function(.data) {
 dimensions <- function(x, ...) {
   pivot_prep(
     dimensions = name_quos(...),
-    measures = x$.struct$measures,
-    src = x$.struct$src
+    measures =  if(is.null(x[[".struct"]])) {NULL} else {x$.struct$measures},
+    src = get_src(x)
   )
 }
 
@@ -61,7 +39,6 @@ dimensions <- function(x, ...) {
 #'
 #' @examples
 #' sales_pivot <- sales %>%
-#'   start_pivot_prep() %>%
 #'   dimensions(order_date = dim_hierarchy(year_id, month_id)) %>%
 #'   measures(no_orders = n(), total_orders = sum(sales))
 #'
@@ -72,9 +49,9 @@ dimensions <- function(x, ...) {
 #' @export
 measures <- function(x, ...) {
   pivot_prep(
-    dimensions = x$.struct$dimensions,
+    dimensions = if(is.null(x[[".struct"]])) {NULL} else {x$.struct$dimensions},
     measures = name_quos(...),
-    src = x$.struct$src
+    src = get_src(x)
   )
 }
 
@@ -85,4 +62,16 @@ print.pivot_prep <- function(x, ...) {
   } else {
     print(to_pivottabler(x$.pivot_table))
   }
+}
+
+get_src <- function(x) {
+  UseMethod("get_src")
+}
+
+get_src.pivot_prep <- function(x) {
+  x$.struct$src
+}
+
+get_src.data.frame <- function(x) {
+  x
 }

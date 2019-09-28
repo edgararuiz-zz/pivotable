@@ -24,16 +24,11 @@ to_pivottabler.pivot_prep <- function(x) {
 
 #' @export
 to_pivottabler.pivot_table <- function(x) {
-  grp_tbl <- x$src
+
+  grp_tbl <- calculate_pivot(x)
+
   rows <- get_dim_quo(x$rows, x$level)
   columns <- get_dim_quo(x$columns, x$level)
-
-  if(!is.null(rows) | !is.null(columns)) {
-    grp_tbl <-  group_by(x$src, !!! c(rows, columns))
-  }
-  grp_tbl <- summarise(grp_tbl, !!! x$values)
-  grp_tbl <- ungroup(grp_tbl)
-  grp_tbl <- collect(grp_tbl)
 
   row_names <- names(rows)
   col_names <- names(columns)
