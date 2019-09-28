@@ -15,6 +15,11 @@ library(pivotable)
 library(dplyr)
 library(DBI)
 library(RSQLite)
+
+sale_orders <- sales %>%
+  group_by(ordernumber, country, year_id, month_id, customername, state, status) %>% 
+  summarise(order_sale = sum(sales)) %>%
+  ungroup()
 ```
 
 # pivotable
@@ -70,15 +75,6 @@ sales %>%
 
 
 ## Dimensions and Measures
-
-```{r}
-sale_orders <- sales %>%
-  group_by(ordernumber, country, year_id, month_id, customername, state, status) %>% 
-  summarise(order_sale = sum(sales)) %>%
-  ungroup()
-
-sale_orders
-```
 
 ```{r}
 orders <- sale_orders %>%
