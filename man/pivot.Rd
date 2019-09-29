@@ -18,5 +18,4 @@ sales \%>\%
   columns(year_id) \%>\%
   values(n()) \%>\%
   pivot()
-
 }

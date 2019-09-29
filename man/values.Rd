@@ -19,5 +19,4 @@ Add an aggregation to a pivot table
 sales \%>\%
   rows(status) \%>\%
   values(n())
-
 }

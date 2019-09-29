@@ -1,3 +1,4 @@
 #' Samples sales data
 #'
-"sales"
+"retail_orders"
+"retail_orders_details"

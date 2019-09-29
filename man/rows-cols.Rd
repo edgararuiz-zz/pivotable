@@ -24,5 +24,4 @@ sales \%>\%
   rows(status) \%>\%
   columns(year_id) \%>\%
   values(n())
-
 }

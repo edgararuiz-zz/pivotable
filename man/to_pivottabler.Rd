@@ -21,5 +21,4 @@ pt <- sales \%>\%
   to_pivottabler()
 
 pt$asMatrix()
-
 }

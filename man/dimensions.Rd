@@ -22,5 +22,4 @@ sales_pivot <- sales \%>\%
 sales_pivot \%>\%
   columns(order_date) \%>\%
   values(total_orders)
-
 }

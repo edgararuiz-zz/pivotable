@@ -17,5 +17,4 @@ Ordered list to create a  hierarchical dimension
 sales \%>\%
   rows(date = dim_hierarchy(year_id, month_id)) \%>\%
   values(n())
-
 }

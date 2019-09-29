@@ -13,13 +13,33 @@ knitr::opts_chunk$set(
 )
 library(pivotable)
 library(dplyr)
+library(lubridate)
 library(DBI)
 library(RSQLite)
 
-sale_orders <- sales %>%
-  group_by(ordernumber, country, year_id, month_id, customername, state, status) %>% 
-  summarise(order_sale = sum(sales)) %>%
-  ungroup()
+add_figure <- function(path, width = 400) {
+  char_html <- paste0("<img src='", path,"' width ='", width,"px'/><br/>")
+  htmltools::HTML(char_html)
+}
+toc <- function() {
+  re <- readLines("README.Rmd")
+  has_title <- as.logical(lapply(re, function(x) substr(x, 1, 2) == "##"))
+  only_titles <- re[has_title]
+  titles <- trimws(gsub("#", "", only_titles))
+  links <- trimws(gsub("`", "", titles))
+  links <- tolower(links)
+  links <- trimws(gsub(" ", "-", links))
+  toc_list <- lapply(
+    seq_along(titles),
+    function(x) {
+      pad <- ifelse(substr(only_titles[x], 1, 3) == "###", "    - ", "  - ")
+      paste0(pad, "[", titles[x], "](#",links[x], ")")
+    }
+  )
+  toc_full <- paste(toc_list, collapse = "\n") 
+  cat(toc_full)
+}
+
 ```
 
 # pivotable
@@ -31,66 +51,107 @@ sale_orders <- sales %>%
 [![CRAN status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.org/package=pivotable)
 <!-- badges: end -->
 
+  - [Installation](#installation)
+  - [Pivot table](#pivot-table)
+    - [Values](#values)
+    - [Rows](#rows)
+    - [Columns](#columns)
+    - [Pivot](#pivot)
+    - [Drill](#drill)
+  - [Define dimensions and measures](#define-dimensions-and-measures)
+  - [Database connections](#database-connections)
+  - [pivottabler](#pivottabler)
+
 ## Installation
 
 You can install the released version of pivotable from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("pivotable")
+# install.packages("remotes")
+remotes::install_github("edgararuiz/pivotable")
 ```
 
-## Example
+## Pivot table
+
+### Values
 
 ```{r}
 library(dplyr)
 library(pivotable)
 
-sales %>%
+retail_orders %>%
   values(sum(sales))
 ```
 
+### Rows
 
 ```{r}
-sales %>%
-  rows(status) %>%
+retail_orders %>%
+  rows(country) %>%
   values(sum(sales)) 
 ```
 
+### Columns
 
 ```{r}
-sales %>%
-  rows(status) %>%
-  columns(year_id) %>%
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
   values(sum(sales))
 ```
 
+### Pivot
 
 ```{r}
-sales %>%
-  rows(status) %>%
-  columns(year_id) %>%
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
   values(sum(sales)) %>%
   pivot()
 ```
 
-
-## Dimensions and Measures
+### Drill
 
 ```{r}
-orders <- sale_orders %>%
+retail_orders %>%
+  rows(order_date = dim_hierarchy(
+    year = as.integer(format(orderdate, "%Y")),
+    month = as.integer(format(orderdate, "%m"))
+    )
+  ) %>%
+  values(sum(sales))
+```
+
+```{r}
+retail_orders %>%
+  rows(order_date = dim_hierarchy(
+    year = as.integer(format(orderdate, "%Y")),
+    month = as.integer(format(orderdate, "%m"))
+    )
+  ) %>%
+  values(sum(sales)) %>%
+  drill(order_date)
+```
+
+## Define dimensions and measures
+
+With `pivotable`, it is possible to pre-define a set of dimensions and measures that can then be easily accesses and re-used by pivot tables.  The idea is to provide a way to centralize data definitions, which creates a consistent reporting.  
+
+```{r}
+orders <- retail_orders %>%
   dimensions(
     order_date = dim_hierarchy(
-      year_id,
-      month_id      
+      year = as.integer(format(orderdate, "%Y")),
+      month = as.integer(format(orderdate, "%m"))
     ),
     status, 
     country
   ) %>%
   measures(
-    no_orders = n(), 
-    order_amount = sum(order_sale),
-    no_sales = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
-    sales_amount = sum(ifelse(status %in% c("In Process", "Shipped"), order_sale, 0))
+    orders_qty = n(), 
+    order_total = sum(sales),
+    sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
+    sales_total = sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0))
     )
 ```
 
@@ -103,40 +164,12 @@ orders %>%
 orders %>%
   rows(status) %>%
   columns(order_date) %>%
-  values(sales_amount)
+  values(sales_total)
 ```
-
-
-### Drill
-
-```{r}
-orders %>%
-  rows(order_date) %>%
-  values(sales_amount) 
-```
-
-
-```{r}
-orders %>%
-  rows(order_date) %>%
-  values(sales_amount) %>%
-  drill(order_date)
-```
-
-## pivottabler
-
-
-```{r}
-pt <- orders %>%
-  rows(order_date) %>%
-  values(no_orders) %>%
-  to_pivottabler()
-
-pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
-```
-
 
 ## Database connections
+
+Because `pivotable` uses `dplyr` commands to create the aggregations.  This allows `pivotable` to take advantage of the same integration that `dplyr` has, such as Spark, databases and `data.table`.   
 
 ```{r}
 library(DBI)
@@ -144,18 +177,27 @@ library(RSQLite)
 
 con <- dbConnect(SQLite(), ":memory:")
 
-tbl_sales <- copy_to(con, sales)
+tbl_sales <- copy_to(con, retail_orders)
 
 tbl_sales %>%
-  rows(status) %>%
-  columns(year_id) %>%
+  columns(status) %>%
+  rows(country) %>%
   values(sum(sales, na.rm = TRUE))
 ```
-
 
 ```{r}
 dbDisconnect(con)
 ```
 
+## pivottabler
+
+```{r}
+pt <- orders %>%
+  rows(order_date) %>%
+  values(orders_qty) %>%
+  to_pivottabler()
+
+pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
+```
 
 

@@ -15,86 +15,202 @@ coverage](https://codecov.io/gh/edgararuiz/pivotable/branch/master/graph/badge.s
 status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.org/package=pivotable)
 <!-- badges: end -->
 
+  - [Installation](#installation)
+  - [Pivot table](#pivot-table)
+      - [Values](#values)
+      - [Rows](#rows)
+      - [Columns](#columns)
+      - [Pivot](#pivot)
+      - [Drill](#drill)
+  - [Define dimensions and measures](#define-dimensions-and-measures)
+  - [Database connections](#database-connections)
+  - [pivottabler](#pivottabler)
+
 ## Installation
 
 You can install the released version of pivotable from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("pivotable")
+# install.packages("remotes")
+remotes::install_github("edgararuiz/pivotable")
 ```
 
-## Example
+## Pivot table
+
+### Values
 
 ``` r
 library(dplyr)
 library(pivotable)
 
-sales %>%
+retail_orders %>%
   values(sum(sales))
 #>   sum(sales)   
 #>   10032628.85
 ```
 
+### Rows
+
 ``` r
-sales %>%
-  rows(status) %>%
+retail_orders %>%
+  rows(country) %>%
   values(sum(sales)) 
-#>             sum(sales)   
-#> Cancelled     194487.48  
-#> Disputed       72212.86  
-#> In Process    144729.96  
-#> On Hold       178979.19  
-#> Resolved      150718.28  
-#> Shipped      9291501.08  
-#> Total       10032628.85
+#>              sum(sales)   
+#> Australia       630623.1  
+#> Austria        202062.53  
+#> Belgium        108412.62  
+#> Canada         224078.56  
+#> Denmark        245637.15  
+#> Finland        329581.91  
+#> France        1110916.52  
+#> Germany        220472.09  
+#> Ireland         57756.43  
+#> Italy          374674.31  
+#> Japan          188167.81  
+#> Norway          307463.7  
+#> Philippines     94015.73  
+#> Singapore      288488.41  
+#> Spain         1215686.92  
+#> Sweden         210014.21  
+#> Switzerland    117713.56  
+#> UK             478880.46  
+#> USA           3627982.83  
+#> Total        10032628.85
 ```
 
+### Columns
+
 ``` r
-sales %>%
-  rows(status) %>%
-  columns(year_id) %>%
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
   values(sum(sales))
-#>             2003        2004        2005        Total        
-#> Cancelled     48710.92   145776.56                194487.48  
-#> Disputed                              72212.86     72212.86  
-#> In Process                           144729.96    144729.96  
-#> On Hold                   26260.21   152718.98    178979.19  
-#> Resolved      28550.59    24078.61    98089.08    150718.28  
-#> Shipped     3439718.03  4528047.22  1323735.83   9291501.08  
-#> Total       3516979.54   4724162.6  1791486.71  10032628.85
+#>              Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        
+#> Australia               14378.09    43971.43                         572273.58     630623.1  
+#> Austria                                                   28550.59   173511.94    202062.53  
+#> Belgium                              8411.95                         100000.67    108412.62  
+#> Canada                                                               224078.56    224078.56  
+#> Denmark                 26012.87                          24078.61   195545.67    245637.15  
+#> Finland                                                              329581.91    329581.91  
+#> France                              43784.69                        1067131.83   1110916.52  
+#> Germany                                                              220472.09    220472.09  
+#> Ireland                                                               57756.43     57756.43  
+#> Italy                                                                374674.31    374674.31  
+#> Japan                                                                188167.81    188167.81  
+#> Norway                                                                307463.7     307463.7  
+#> Philippines                                                           94015.73     94015.73  
+#> Singapore                                                            288488.41    288488.41  
+#> Spain         50010.65   31821.9    35133.34              53815.72  1044905.31   1215686.92  
+#> Sweden        48710.92                         26260.21              135043.08    210014.21  
+#> Switzerland                                                          117713.56    117713.56  
+#> UK            50408.25                                               428472.21    478880.46  
+#> USA           45357.66              13428.55  152718.98   44273.36  3372204.28   3627982.83  
+#> Total        194487.48  72212.86   144729.96  178979.19  150718.28  9291501.08  10032628.85
 ```
 
+### Pivot
+
 ``` r
-sales %>%
-  rows(status) %>%
-  columns(year_id) %>%
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
   values(sum(sales)) %>%
   pivot()
-#>        Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        
-#> 2003    48710.92                                    28550.59  3439718.03   3516979.54  
-#> 2004   145776.56                         26260.21   24078.61  4528047.22    4724162.6  
-#> 2005              72212.86   144729.96  152718.98   98089.08  1323735.83   1791486.71  
-#> Total  194487.48  72212.86   144729.96  178979.19  150718.28  9291501.08  10032628.85
+#>             Australia  Austria    Belgium    Canada     Denmark    Finland    France      Germany    Ireland   Italy      Japan      Norway    Philippines  Singapore  Spain       Sweden     Switzerland  UK         USA         Total        
+#> Cancelled                                                                                                                                                                50010.65   48710.92                50408.25    45357.66    194487.48  
+#> Disputed     14378.09                                    26012.87                                                                                                         31821.9                                                    72212.86  
+#> In Process   43971.43               8411.95                                     43784.69                                                                                 35133.34                                       13428.55    144729.96  
+#> On Hold                                                                                                                                                                             26260.21                           152718.98    178979.19  
+#> Resolved                28550.59                         24078.61                                                                                                        53815.72                                       44273.36    150718.28  
+#> Shipped     572273.58  173511.94  100000.67  224078.56  195545.67  329581.91  1067131.83  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1044905.31  135043.08    117713.56  428472.21  3372204.28   9291501.08  
+#> Total        630623.1  202062.53  108412.62  224078.56  245637.15  329581.91  1110916.52  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1215686.92  210014.21    117713.56  478880.46  3627982.83  10032628.85
 ```
 
-## Dimensions and Measures
+### Drill
 
 ``` r
-orders <- sale_orders %>%
+retail_orders %>%
+  rows(order_date = dim_hierarchy(
+    year = as.integer(format(orderdate, "%Y")),
+    month = as.integer(format(orderdate, "%m"))
+    )
+  ) %>%
+  values(sum(sales))
+#>        sum(sales)   
+#> 2003    3516979.54  
+#> 2004     4724162.6  
+#> 2005    1791486.71  
+#> Total  10032628.85
+```
+
+``` r
+retail_orders %>%
+  rows(order_date = dim_hierarchy(
+    year = as.integer(format(orderdate, "%Y")),
+    month = as.integer(format(orderdate, "%m"))
+    )
+  ) %>%
+  values(sum(sales)) %>%
+  drill(order_date)
+#>               sum(sales)   
+#> 2003   1         129753.6  
+#>        2        140836.19  
+#>        3         174504.9  
+#>        4        201609.55  
+#>        5        192673.11  
+#>        6        168082.56  
+#>        7        187731.88  
+#>        8         197809.3  
+#>        9        263973.36  
+#>        10       568290.97  
+#>        11      1029837.66  
+#>        12       261876.46  
+#>        Total   3516979.54  
+#> 2004   1        316577.42  
+#>        2        311419.53  
+#>        3        205733.73  
+#>        4        206148.12  
+#>        5        273438.39  
+#>        6        286674.22  
+#>        7        327144.09  
+#>        8        461501.27  
+#>        9        320750.91  
+#>        10       552924.25  
+#>        11      1089048.01  
+#>        12       372802.66  
+#>        Total    4724162.6  
+#> 2005   1        339543.42  
+#>        2        358186.18  
+#>        3        374262.76  
+#>        4        261633.29  
+#>        5        457861.06  
+#>        Total   1791486.71  
+#> Total         10032628.85
+```
+
+## Define dimensions and measures
+
+With `pivotable`, it is possible to pre-define a set of dimensions and
+measures that can then be easily accesses and re-used by pivot tables.
+The idea is to provide a way to centralize data definitions, which
+creates a consistent reporting.
+
+``` r
+orders <- retail_orders %>%
   dimensions(
     order_date = dim_hierarchy(
-      year_id,
-      month_id      
+      year = as.integer(format(orderdate, "%Y")),
+      month = as.integer(format(orderdate, "%m"))
     ),
     status, 
     country
   ) %>%
   measures(
-    no_orders = n(), 
-    order_amount = sum(order_sale),
-    no_sales = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
-    sales_amount = sum(ifelse(status %in% c("In Process", "Shipped"), order_sale, 0))
+    orders_qty = n(), 
+    order_total = sum(sales),
+    sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
+    sales_total = sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0))
     )
 ```
 
@@ -114,7 +230,7 @@ orders %>%
 orders %>%
   rows(status) %>%
   columns(order_date) %>%
-  values(sales_amount)
+  values(sales_total)
 #>             2003        2004        2005        Total       
 #> Cancelled            0           0                       0  
 #> Disputed                                     0           0  
@@ -125,78 +241,11 @@ orders %>%
 #> Total       3439718.03  4528047.22  1468465.79  9436231.04
 ```
 
-### Drill
-
-``` r
-orders %>%
-  rows(order_date) %>%
-  values(sales_amount) 
-#>        sales_amount  
-#> 2003     3439718.03  
-#> 2004     4528047.22  
-#> 2005     1468465.79  
-#> Total    9436231.04
-```
-
-``` r
-orders %>%
-  rows(order_date) %>%
-  values(sales_amount) %>%
-  drill(order_date)
-#>               sales_amount  
-#> 2003   1          129753.6  
-#>        2         140836.19  
-#>        3          174504.9  
-#>        4         201609.55  
-#>        5         192673.11  
-#>        6         168082.56  
-#>        7         187731.88  
-#>        8          197809.3  
-#>        9         263973.36  
-#>        10        491029.46  
-#>        11       1029837.66  
-#>        12        261876.46  
-#>        Total    3439718.03  
-#> 2004   1         316577.42  
-#>        2         311419.53  
-#>        3         205733.73  
-#>        4         206148.12  
-#>        5         228080.73  
-#>        6         186255.32  
-#>        7         327144.09  
-#>        8         461501.27  
-#>        9         320750.91  
-#>        10        552924.25  
-#>        11       1038709.19  
-#>        12        372802.66  
-#>        Total    4528047.22  
-#> 2005   1         295270.06  
-#>        2         358186.18  
-#>        3         320447.04  
-#>        4         131218.33  
-#>        5         363344.18  
-#>        Total    1468465.79  
-#> Total           9436231.04
-```
-
-## pivottabler
-
-``` r
-pt <- orders %>%
-  rows(order_date) %>%
-  values(no_orders) %>%
-  to_pivottabler()
-
-pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
-#>      [,1]    [,2]       
-#> [1,] ""      "no_orders"
-#> [2,] "2003"  "104"      
-#> [3,] "2004"  "144"      
-#> [4,] "2005"  "59"       
-#> [5,] "Total" "307"
-```
-
 ## Database connections
+
+Because `pivotable` uses `dplyr` commands to create the aggregations.
+This allows `pivotable` to take advantage of the same integration that
+`dplyr` has, such as Spark, databases and `data.table`.
 
 ``` r
 library(DBI)
@@ -204,22 +253,52 @@ library(RSQLite)
 
 con <- dbConnect(SQLite(), ":memory:")
 
-tbl_sales <- copy_to(con, sales)
+tbl_sales <- copy_to(con, retail_orders)
 
 tbl_sales %>%
-  rows(status) %>%
-  columns(year_id) %>%
+  columns(status) %>%
+  rows(country) %>%
   values(sum(sales, na.rm = TRUE))
-#>             2003        2004              2005        Total             
-#> Cancelled     48710.92         145776.56                     194487.48  
-#> Disputed                                    72212.86          72212.86  
-#> In Process                                 144729.96         144729.96  
-#> On Hold                         26260.21   152718.98         178979.19  
-#> Resolved      28550.59          24078.61    98089.08         150718.28  
-#> Shipped     3439718.03  4528047.21999999  1323735.83  9291501.07999999  
-#> Total       3516979.54  4724162.59999999  1791486.71       10032628.85
+#>              Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        
+#> Australia               14378.09    43971.43                         572273.58     630623.1  
+#> Austria                                                   28550.59   173511.94    202062.53  
+#> Belgium                              8411.95                         100000.67    108412.62  
+#> Canada                                                               224078.56    224078.56  
+#> Denmark                 26012.87                          24078.61   195545.67    245637.15  
+#> Finland                                                              329581.91    329581.91  
+#> France                              43784.69                        1067131.83   1110916.52  
+#> Germany                                                              220472.09    220472.09  
+#> Ireland                                                               57756.43     57756.43  
+#> Italy                                                                374674.31    374674.31  
+#> Japan                                                                188167.81    188167.81  
+#> Norway                                                                307463.7     307463.7  
+#> Philippines                                                           94015.73     94015.73  
+#> Singapore                                                            288488.41    288488.41  
+#> Spain         50010.65   31821.9    35133.34              53815.72  1044905.31   1215686.92  
+#> Sweden        48710.92                         26260.21              135043.08    210014.21  
+#> Switzerland                                                          117713.56    117713.56  
+#> UK            50408.25                                               428472.21    478880.46  
+#> USA           45357.66              13428.55  152718.98   44273.36  3372204.28   3627982.83  
+#> Total        194487.48  72212.86   144729.96  178979.19  150718.28  9291501.08  10032628.85
 ```
 
 ``` r
 dbDisconnect(con)
+```
+
+## pivottabler
+
+``` r
+pt <- orders %>%
+  rows(order_date) %>%
+  values(orders_qty) %>%
+  to_pivottabler()
+
+pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)
+#>      [,1]    [,2]        
+#> [1,] ""      "orders_qty"
+#> [2,] "2003"  "104"       
+#> [3,] "2004"  "144"       
+#> [4,] "2005"  "59"        
+#> [5,] "Total" "307"
 ```
