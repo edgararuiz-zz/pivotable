@@ -4,9 +4,9 @@
 #'
 #' @examples
 #'
-#' pt <- sales %>%
+#' pt <- retail_orders %>%
 #'   rows(status) %>%
-#'   columns(year_id) %>%
+#'   columns(country) %>%
 #'   values(n()) %>%
 #'   to_pivottabler()
 #'

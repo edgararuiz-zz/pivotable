@@ -132,9 +132,17 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>sales</span> <span class='kw'>%&gt;%</span>
+<span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='rows-cols.html'>rows</a></span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>values</span>(<span class='fu'>n</span>())</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'sales' not found</span></div></pre>
+  <span class='fu'>values</span>(<span class='fu'>n</span>())</div><div class='output co'>#&gt;             n()  
+#&gt; Cancelled     4  
+#&gt; Disputed      3  
+#&gt; In Process    6  
+#&gt; On Hold       4  
+#&gt; Resolved      4  
+#&gt; Shipped     286  
+#&gt; Total       307  </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

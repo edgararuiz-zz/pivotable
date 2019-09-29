@@ -20,8 +20,8 @@ Manipulate pivot tables
 }
 \examples{
 
-sales \%>\%
+retail_orders \%>\%
   rows(status) \%>\%
-  columns(year_id) \%>\%
+  columns(country) \%>\%
   values(n())
 }

@@ -8,9 +8,9 @@
 #'
 #' @examples
 #'
-#' sales %>%
+#' retail_orders %>%
 #'   rows(status) %>%
-#'   columns(year_id) %>%
+#'   columns(country) %>%
 #'   values(n())
 #' @export
 rows <- function(.data, ...) {
@@ -30,9 +30,10 @@ columns <- function(.data, ...) {
 #'
 #' @examples
 #'
-#' sales %>%
+#' retail_orders %>%
 #'   rows(status) %>%
 #'   values(n())
+#'
 #' @export
 values <- function(.data, ...) {
   set_cat(.data, "values", ...)

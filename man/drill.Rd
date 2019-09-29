@@ -16,8 +16,11 @@ Drill into a hierarchy dimension
 }
 \examples{
 
-sales \%>\%
-  rows(date = dim_hierarchy(year_id, month_id)) \%>\%
-  values(n()) \%>\%
-  drill()
+retail_orders \%>\%
+  rows(order_date = dim_hierarchy(
+    year = as.integer(format(orderdate, "\%Y")),
+    month = as.integer(format(orderdate, "\%m"))
+  )) \%>\%
+  values(sum(sales))
+
 }

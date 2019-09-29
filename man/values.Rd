@@ -16,7 +16,8 @@ Add an aggregation to a pivot table
 }
 \examples{
 
-sales \%>\%
+retail_orders \%>\%
   rows(status) \%>\%
   values(n())
+
 }

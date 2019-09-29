@@ -15,13 +15,18 @@ pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL) {
 #' @param ... A set of variable or named variables
 #'
 #' @examples
-#' sales_pivot <- sales %>%
-#'   dimensions(order_date = dim_hierarchy(year_id, month_id)) %>%
+#'
+#' sales_pivot <- retail_orders %>%
+#'   dimensions(order_date = dim_hierarchy(
+#'     year = as.integer(format(orderdate, "%Y")),
+#'     month = as.integer(format(orderdate, "%m"))
+#'   )) %>%
 #'   measures(no_orders = n(), total_orders = sum(sales))
 #'
 #' sales_pivot %>%
 #'   columns(order_date) %>%
 #'   values(total_orders)
+#'
 #' @export
 dimensions <- function(x, ...) {
   pivot_prep(
@@ -41,13 +46,18 @@ dimensions <- function(x, ...) {
 #' @param ... A set of variable or named variables
 #'
 #' @examples
-#' sales_pivot <- sales %>%
-#'   dimensions(order_date = dim_hierarchy(year_id, month_id)) %>%
+#'
+#' sales_pivot <- retail_orders %>%
+#'   dimensions(order_date = dim_hierarchy(
+#'     year = as.integer(format(orderdate, "%Y")),
+#'     month = as.integer(format(orderdate, "%m"))
+#'   )) %>%
 #'   measures(no_orders = n(), total_orders = sum(sales))
 #'
 #' sales_pivot %>%
 #'   columns(order_date) %>%
 #'   values(total_orders)
+#'
 #' @export
 measures <- function(x, ...) {
   pivot_prep(

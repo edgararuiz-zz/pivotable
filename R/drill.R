@@ -4,9 +4,13 @@
 #'
 #' @examples
 #'
-#' sales %>%
-#'   rows(date = dim_hierarchy(year_id, month_id)) %>%
-#'   values(n())
+#' retail_orders %>%
+#'   rows(order_date = dim_hierarchy(
+#'     year = as.integer(format(orderdate, "%Y")),
+#'     month = as.integer(format(orderdate, "%m"))
+#'   )) %>%
+#'   values(sum(sales))
+#'
 #' @export
 dim_hierarchy <- function(...) {
   structure(
@@ -22,10 +26,13 @@ dim_hierarchy <- function(...) {
 #'
 #' @examples
 #'
-#' sales %>%
-#'   rows(date = dim_hierarchy(year_id, month_id)) %>%
-#'   values(n()) %>%
-#'   drill()
+#' retail_orders %>%
+#'   rows(order_date = dim_hierarchy(
+#'     year = as.integer(format(orderdate, "%Y")),
+#'     month = as.integer(format(orderdate, "%m"))
+#'   )) %>%
+#'   values(sum(sales))
+#'
 #' @export
 drill <- function(.data, ...) {
   set_drill(.data, ...)

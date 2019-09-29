@@ -13,9 +13,9 @@ pivot(.data)
 Switch the columns with the rows on a pivot table
 }
 \examples{
-sales \%>\%
+retail_orders \%>\%
   rows(status) \%>\%
-  columns(year_id) \%>\%
+  columns(country) \%>\%
   values(n()) \%>\%
   pivot()
 }

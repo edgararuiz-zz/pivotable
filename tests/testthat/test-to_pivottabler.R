@@ -4,6 +4,6 @@ test_that("pivottabler", {
   t <- mtcars %>%
     columns(am) %>%
     rows(cyl) %>%
-    values(n())
+    values(sum(mpg))
   expect_is(to_pivottabler(t), "PivotTable")
 })

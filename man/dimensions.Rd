@@ -15,11 +15,16 @@ dimensions(x, ...)
 Develop grouping categories for pivot tables
 }
 \examples{
-sales_pivot <- sales \%>\%
-  dimensions(order_date = dim_hierarchy(year_id, month_id)) \%>\%
+
+sales_pivot <- retail_orders \%>\%
+  dimensions(order_date = dim_hierarchy(
+    year = as.integer(format(orderdate, "\%Y")),
+    month = as.integer(format(orderdate, "\%m"))
+  )) \%>\%
   measures(no_orders = n(), total_orders = sum(sales))
 
 sales_pivot \%>\%
   columns(order_date) \%>\%
   values(total_orders)
+
 }

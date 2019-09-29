@@ -128,12 +128,39 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>pt</span> <span class='kw'>&lt;-</span> <span class='no'>sales</span> <span class='kw'>%&gt;%</span>
+<span class='no'>pt</span> <span class='kw'>&lt;-</span> <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='rows-cols.html'>rows</a></span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='no'>year_id</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='values.html'>values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'>to_pivottabler</span>()</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'sales' not found</span></div><div class='input'>
-<span class='no'>pt</span>$<span class='fu'>asMatrix</span>()</div><div class='output co'>#&gt; <span class='error'>Error in pt$asMatrix: object of type 'closure' is not subsettable</span></div></pre>
+  <span class='fu'>to_pivottabler</span>()
+
+<span class='no'>pt</span>$<span class='fu'>asMatrix</span>()</div><div class='output co'>#&gt;      [,1]         [,2]        [,3]      [,4]      [,5]     [,6]      [,7]     
+#&gt; [1,] ""           "Australia" "Austria" "Belgium" "Canada" "Denmark" "Finland"
+#&gt; [2,] "Cancelled"  ""          ""        ""        ""       ""        ""       
+#&gt; [3,] "Disputed"   "1"         ""        ""        ""       "1"       ""       
+#&gt; [4,] "In Process" "1"         ""        "1"       ""       ""        ""       
+#&gt; [5,] "On Hold"    ""          ""        ""        ""       ""        ""       
+#&gt; [6,] "Resolved"   ""          "1"       ""        ""       "1"       ""       
+#&gt; [7,] "Shipped"    "17"        "6"       "6"       "7"      "5"       "9"      
+#&gt; [8,] "Total"      "19"        "7"       "7"       "7"      "7"       "9"      
+#&gt;      [,8]     [,9]      [,10]     [,11]   [,12]   [,13]    [,14]        
+#&gt; [1,] "France" "Germany" "Ireland" "Italy" "Japan" "Norway" "Philippines"
+#&gt; [2,] ""       ""        ""        ""      ""      ""       ""           
+#&gt; [3,] ""       ""        ""        ""      ""      ""       ""           
+#&gt; [4,] "1"      ""        ""        ""      ""      ""       ""           
+#&gt; [5,] ""       ""        ""        ""      ""      ""       ""           
+#&gt; [6,] ""       ""        ""        ""      ""      ""       ""           
+#&gt; [7,] "36"     "7"       "2"       "8"     "6"     "9"      "3"          
+#&gt; [8,] "37"     "7"       "2"       "8"     "6"     "9"      "3"          
+#&gt;      [,15]       [,16]   [,17]    [,18]         [,19] [,20] [,21]  
+#&gt; [1,] "Singapore" "Spain" "Sweden" "Switzerland" "UK"  "USA" "Total"
+#&gt; [2,] ""          "1"     "1"      ""            "1"   "1"   "4"    
+#&gt; [3,] ""          "1"     ""       ""            ""    ""    "3"    
+#&gt; [4,] ""          "1"     ""       ""            ""    "2"   "6"    
+#&gt; [5,] ""          ""      "1"      ""            ""    "3"   "4"    
+#&gt; [6,] ""          "1"     ""       ""            ""    "1"   "4"    
+#&gt; [7,] "9"         "32"    "5"      "2"           "12"  "105" "286"  
+#&gt; [8,] "9"         "36"    "7"      "2"           "13"  "112" "307"  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

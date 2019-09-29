@@ -127,11 +127,31 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>sales</span> <span class='kw'>%&gt;%</span>
+    <pre class="examples"><div class='input'><span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='rows-cols.html'>rows</a></span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='no'>year_id</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='values.html'>values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot</span>()</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'sales' not found</span></div></pre>
+  <span class='fu'>pivot</span>()</div><div class='output co'>#&gt;              Cancelled  Disputed  In Process  On Hold  Resolved  Shipped  Total  
+#&gt; Australia                      1           1                          17     19  
+#&gt; Austria                                                       1        6      7  
+#&gt; Belgium                                    1                           6      7  
+#&gt; Canada                                                                 7      7  
+#&gt; Denmark                        1                              1        5      7  
+#&gt; Finland                                                                9      9  
+#&gt; France                                     1                          36     37  
+#&gt; Germany                                                                7      7  
+#&gt; Ireland                                                                2      2  
+#&gt; Italy                                                                  8      8  
+#&gt; Japan                                                                  6      6  
+#&gt; Norway                                                                 9      9  
+#&gt; Philippines                                                            3      3  
+#&gt; Singapore                                                              9      9  
+#&gt; Spain                1         1           1                  1       32     36  
+#&gt; Sweden               1                              1                  5      7  
+#&gt; Switzerland                                                            2      2  
+#&gt; UK                   1                                                12     13  
+#&gt; USA                  1                     2        3         1      105    112  
+#&gt; Total                4         3           6        4         4      286    307  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

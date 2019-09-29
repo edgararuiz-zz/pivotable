@@ -3,9 +3,9 @@
 #' @param .data A pivot_table object
 #'
 #' @examples
-#' sales %>%
+#' retail_orders %>%
 #'   rows(status) %>%
-#'   columns(year_id) %>%
+#'   columns(country) %>%
 #'   values(n()) %>%
 #'   pivot()
 #' @export
