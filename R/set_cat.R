@@ -41,9 +41,12 @@ set_cat.pivot_prep <- function(.data, atr = "", ...) {
       setNames(
         list(.data[[as_label(x)]]),
         as.character(as_label(x))
-      ))
+      )
+  )
   nvt <- NULL
-  for(i in seq_along(nv)){ nvt <- c(nvt, nv[[i]])}
+  for (i in seq_along(nv)) {
+    nvt <- c(nvt, nv[[i]])
+  }
   .data$.pivot_table[[atr]] <- nvt
   .data
 }
@@ -63,23 +66,23 @@ name_quos <- function(...) {
 
 get_dim_quo <- function(x, level) {
   dim_classes <- as.character(
-    lapply(x,function(y) class(rlang::quo_squash(y)))
+    lapply(x, function(y) class(rlang::quo_squash(y)))
   )
   dc <- quos()
-  for(i in seq_along(dim_classes)) {
-    if(dim_classes[i] == "call") {
+  for (i in seq_along(dim_classes)) {
+    if (dim_classes[i] == "call") {
       fd <- eval(rlang::quo_squash(x[[i]]))
-      lvs <-  sum(level == names(x)) + 1
+      lvs <- sum(level == names(x)) + 1
       ts <- quos()
-      for(j in seq_len(lvs)) {
-        ts <- c(ts, name_quos(!!! fd[j]))
+      for (j in seq_len(lvs)) {
+        ts <- c(ts, name_quos(!!!fd[j]))
       }
       dc <- c(dc, ts)
     } else {
       dc <- c(dc, x[i])
     }
   }
-  if(length(dc) == 0) {
+  if (length(dc) == 0) {
     return(NULL)
   } else {
     dc

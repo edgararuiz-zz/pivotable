@@ -7,7 +7,6 @@
 #' sales %>%
 #'   rows(date = dim_hierarchy(year_id, month_id)) %>%
 #'   values(n())
-#'
 #' @export
 dim_hierarchy <- function(...) {
   structure(
@@ -27,7 +26,6 @@ dim_hierarchy <- function(...) {
 #'   rows(date = dim_hierarchy(year_id, month_id)) %>%
 #'   values(n()) %>%
 #'   drill()
-#'
 #' @export
 drill <- function(.data, ...) {
   set_drill(.data, ...)

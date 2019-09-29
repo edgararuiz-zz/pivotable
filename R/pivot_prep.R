@@ -1,11 +1,11 @@
-pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL){
+pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL) {
   struc <- c(measures, dimensions)
-  struc$.struct = list(
+  struc$.struct <- list(
     dimensions = dimensions,
     measures = measures,
     src = src
   )
-  struc$.pivot_table = pivot_table()
+  struc$.pivot_table <- pivot_table()
   structure(struc, class = "pivot_prep")
 }
 
@@ -22,12 +22,15 @@ pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL){
 #' sales_pivot %>%
 #'   columns(order_date) %>%
 #'   values(total_orders)
-#'
 #' @export
 dimensions <- function(x, ...) {
   pivot_prep(
     dimensions = name_quos(...),
-    measures =  if(is.null(x[[".struct"]])) {NULL} else {x$.struct$measures},
+    measures = if (is.null(x[[".struct"]])) {
+      NULL
+    } else {
+      x$.struct$measures
+    },
     src = get_src(x)
   )
 }
@@ -45,11 +48,14 @@ dimensions <- function(x, ...) {
 #' sales_pivot %>%
 #'   columns(order_date) %>%
 #'   values(total_orders)
-#'
 #' @export
 measures <- function(x, ...) {
   pivot_prep(
-    dimensions = if(is.null(x[[".struct"]])) {NULL} else {x$.struct$dimensions},
+    dimensions = if (is.null(x[[".struct"]])) {
+      NULL
+    } else {
+      x$.struct$dimensions
+    },
     measures = name_quos(...),
     src = get_src(x)
   )
@@ -57,7 +63,7 @@ measures <- function(x, ...) {
 
 #' @export
 print.pivot_prep <- function(x, ...) {
-  if(is.null(x$.pivot_table$src)) {
+  if (is.null(x$.pivot_table$src)) {
     print("pivot_prep")
   } else {
     print(to_pivottabler(x$.pivot_table))

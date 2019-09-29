@@ -11,7 +11,6 @@
 #'   to_pivottabler()
 #'
 #' pt$asMatrix()
-#'
 #' @export
 to_pivottabler <- function(x) {
   UseMethod("to_pivottabler")
@@ -24,7 +23,6 @@ to_pivottabler.pivot_prep <- function(x) {
 
 #' @export
 to_pivottabler.pivot_table <- function(x) {
-
   grp_tbl <- calculate_pivot(x)
 
   rows <- get_dim_quo(x$rows, x$level)
@@ -36,12 +34,14 @@ to_pivottabler.pivot_table <- function(x) {
 
   pt <- pivottabler::PivotTable$new()
   pt$addData(grp_tbl)
-  if(!is.null(col_names))
-    for(i in seq_along(col_names)) pt$addColumnDataGroups(col_names[i])
-  if(!is.null(row_names))
-    for(i in seq_along(row_names)) pt$addRowDataGroups(row_names[i])
-  if(!is.null(val_names)) {
-    for(i in seq_along(val_names)) {
+  if (!is.null(col_names)) {
+    for (i in seq_along(col_names)) pt$addColumnDataGroups(col_names[i])
+  }
+  if (!is.null(row_names)) {
+    for (i in seq_along(row_names)) pt$addRowDataGroups(row_names[i])
+  }
+  if (!is.null(val_names)) {
+    for (i in seq_along(val_names)) {
       pt$defineCalculation(
         calculationName = val_names,
         summariseExpression = paste0("sum(`", val_names, "`)")

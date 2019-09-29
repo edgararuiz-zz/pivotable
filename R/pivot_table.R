@@ -9,7 +9,7 @@
 #' @import pivottabler
 #' @import rlang
 
-pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL){
+pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL) {
   structure(
     list(
       rows = rows,

@@ -12,7 +12,6 @@
 #'   rows(status) %>%
 #'   columns(year_id) %>%
 #'   values(n())
-#'
 #' @export
 rows <- function(.data, ...) {
   set_cat(.data, "rows", ...)
@@ -34,10 +33,7 @@ columns <- function(.data, ...) {
 #' sales %>%
 #'   rows(status) %>%
 #'   values(n())
-#'
 #' @export
 values <- function(.data, ...) {
   set_cat(.data, "values", ...)
 }
-
-
