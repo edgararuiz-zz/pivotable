@@ -22,6 +22,7 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
       - [Rows](#rows)
       - [Columns](#columns)
       - [Pivot](#pivot)
+      - [Focus](#focus)
       - [Drill](#drill)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
@@ -158,6 +159,27 @@ retail_orders %>%
 #> Resolved                28550.59                         24078.61                                                                                                        53815.72                                       44273.36    150718.28  
 #> Shipped     572273.58  173511.94  100000.67  224078.56  195545.67  329581.91  1067131.83  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1044905.31  135043.08    117713.56  428472.21  3372204.28   9291501.08  
 #> Total        630623.1  202062.53  108412.62  224078.56  245637.15  329581.91  1110916.52  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1215686.92  210014.21    117713.56  478880.46  3627982.83  10032628.85
+```
+
+### Focus
+
+To limit the pivot table to display only a subset of the categories, use
+`focus()`
+
+``` r
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
+  values(sum(sales)) %>%
+  focus(
+    country %in% c("Japan", "USA", "UK"), 
+    status == "Shipped"
+    ) 
+#>        Shipped     Total       
+#> Japan   188167.81   188167.81  
+#> UK      428472.21   428472.21  
+#> USA    3372204.28  3372204.28  
+#> Total   3988844.3   3988844.3
 ```
 
 ### Drill

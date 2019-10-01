@@ -5,6 +5,8 @@
 #' @importFrom dplyr ungroup
 #' @importFrom dplyr as_tibble
 #' @importFrom dplyr collect
+#' @importFrom dplyr select
+#' @importFrom dplyr filter
 #' @importFrom stats setNames
 #' @import pivottabler
 #' @import rlang
@@ -15,6 +17,8 @@ pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL) 
       rows = rows,
       columns = columns,
       values = values,
+      focus = NULL,
+      filter = NULL,
       level = list()
     ),
     class = "pivot_table"

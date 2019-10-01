@@ -58,6 +58,7 @@ toc <- function() {
     - [Rows](#rows)
     - [Columns](#columns)
     - [Pivot](#pivot)
+    - [Focus](#focus)
     - [Drill](#drill)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
@@ -125,6 +126,22 @@ retail_orders %>%
   values(sum(sales)) %>%
   pivot()
 ```
+
+### Focus
+
+To limit the pivot table to display only a subset of the categories, use `focus()`
+
+```{r}
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
+  values(sum(sales)) %>%
+  focus(
+    country %in% c("Japan", "USA", "UK"), 
+    status == "Shipped"
+    ) 
+```
+
 
 ### Drill
 

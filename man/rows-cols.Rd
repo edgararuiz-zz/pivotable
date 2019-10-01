@@ -4,11 +4,14 @@
 \alias{rows-cols}
 \alias{rows}
 \alias{columns}
+\alias{focus}
 \title{Manipulate pivot tables}
 \usage{
 rows(.data, ...)
 
 columns(.data, ...)
+
+focus(.data, ...)
 }
 \arguments{
 \item{.data}{A data.frame or a pivot_prep object}

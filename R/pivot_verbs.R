@@ -23,6 +23,12 @@ columns <- function(.data, ...) {
   set_cat(.data, "columns", ...)
 }
 
+#' @rdname rows-cols
+#' @export
+focus <- function(.data, ...) {
+  set_cat(.data, "focus", ...)
+}
+
 #' Add an aggregation to a pivot table
 #'
 #' @param .data A data.frame or a pivot_prep object
