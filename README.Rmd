@@ -129,19 +129,19 @@ retail_orders %>%
 
 ### Focus
 
-To limit the pivot table to display only a subset of the categories, use `focus()`
+To limit the pivot table to display only a subset of the pivot table, use `focus()`
 
 ```{r}
 retail_orders %>%
   rows(country) %>%
   columns(status) %>%
-  values(sum(sales)) %>%
+  values(total_sales = sum(sales)) %>%
   focus(
     country %in% c("Japan", "USA", "UK"), 
-    status == "Shipped"
-    ) 
+    status == "Shipped",
+    total_sales > 200000
+    )
 ```
-
 
 ### Drill
 
@@ -194,15 +194,19 @@ orders <- retail_orders %>%
 
 ```{r}
 orders %>%
-  rows(status)
+  rows(status) %>%
+  columns(order_date) %>%
+  values(sales_total)
 ```
 
 ```{r}
 orders %>%
   rows(status) %>%
   columns(order_date) %>%
-  values(sales_total)
+  values(sales_total) %>%
+  drill(order_date)
 ```
+
 
 ## Database connections
 

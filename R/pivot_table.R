@@ -18,7 +18,7 @@ pivot_table <- function(rows = NULL, columns = NULL, values = NULL, src = NULL) 
       columns = columns,
       values = values,
       focus = NULL,
-      filter = NULL,
+      retain = NULL,
       level = list()
     ),
     class = "pivot_table"

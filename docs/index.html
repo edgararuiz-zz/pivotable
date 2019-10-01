@@ -197,20 +197,20 @@
 <div id="focus" class="section level3">
 <h3 class="hasAnchor">
 <a href="#focus" class="anchor"></a>Focus</h3>
-<p>To limit the pivot table to display only a subset of the categories, use <code><a href="reference/rows-cols.html">focus()</a></code></p>
+<p>To limit the pivot table to display only a subset of the pivot table, use <code><a href="reference/rows-cols.html">focus()</a></code></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="dt">total_sales =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">focus</a></span>(</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6">    country <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Japan"</span>, <span class="st">"USA"</span>, <span class="st">"UK"</span>), </a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">    status <span class="op">==</span><span class="st"> "Shipped"</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">    ) </a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;        Shipped     Total       </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; Japan   188167.81   188167.81  </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">    status <span class="op">==</span><span class="st"> "Shipped"</span>,</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">    total_sales <span class="op">&gt;</span><span class="st"> </span><span class="dv">200000</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">    )</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;        Shipped     Total       </span></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; UK      428472.21   428472.21  </span></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; USA    3372204.28  3372204.28  </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; Total   3988844.3   3988844.3</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; Total  3800676.49  3800676.49</span></a></code></pre></div>
 </div>
 <div id="drill" class="section level3">
 <h3 class="hasAnchor">
@@ -293,26 +293,31 @@
 <a class="sourceLine" id="cb9-14" data-line-number="14">    <span class="dt">sales_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), sales, <span class="dv">0</span>))</a>
 <a class="sourceLine" id="cb9-15" data-line-number="15">    )</a></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(status)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; Cancelled     </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; Disputed      </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; In Process    </span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; On Hold       </span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; Resolved      </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; Shipped       </span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; Total</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(sales_total)</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;             2003        2004        2005        Total       </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; Cancelled            0           0                       0  </span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; Disputed                                     0           0  </span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; In Process                           144729.96   144729.96  </span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; On Hold                          0           0           0  </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; Resolved             0           0           0           0  </span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; Shipped     3439718.03  4528047.22  1323735.83  9291501.08  </span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; Total       3439718.03  4528047.22  1468465.79  9436231.04</span></a></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">orders <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(status) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(sales_total)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;             2003        2004        2005        Total       </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; Cancelled            0           0                       0  </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; Disputed                                     0           0  </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; In Process                           144729.96   144729.96  </span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; On Hold                          0           0           0  </span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; Resolved             0           0           0           0  </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; Shipped     3439718.03  4528047.22  1323735.83  9291501.08  </span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; Total       3439718.03  4528047.22  1468465.79  9436231.04</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(sales_total) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/drill.html">drill</a></span>(order_date)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;             2003                                                                                                                                          2004                                                                                                                                             2005                                                               Total       </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;             1         2          3         4          5          6          7          8         9          10         11          12         Total       1          2          3          4          5          6          7          8          9          10         11          12         Total       1          2          3          4          5          Total                   </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; Cancelled                                                                                                           0                                  0                                                      0          0                                                                              0                                                                              0  </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; Disputed                                                                                                                                                                                                                                                                                                                                            0          0           0           0  </span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; In Process                                                                                                                                                                                                                                                                                                                                             144729.96   144729.96   144729.96  </span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; On Hold                                                                                                                                                                                                                                                                          0                      0                                           0          0           0           0  </span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; Resolved                                                                                                            0                                  0                                                                                                                         0                      0          0                     0                                 0           0  </span></a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; Shipped     129753.6  140836.19  174504.9  201609.55  192673.11  168082.56  187731.88  197809.3  263973.36  491029.46  1029837.66  261876.46  3439718.03  316577.42  311419.53  205733.73  206148.12  228080.73  186255.32  327144.09  461501.27  320750.91  552924.25  1038709.19  372802.66  4528047.22  295270.06  358186.18  320447.04  131218.33  218614.22  1323735.83  9291501.08  </span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; Total       129753.6  140836.19  174504.9  201609.55  192673.11  168082.56  187731.88  197809.3  263973.36  491029.46  1029837.66  261876.46  3439718.03  316577.42  311419.53  205733.73  206148.12  228080.73  186255.32  327144.09  461501.27  320750.91  552924.25  1038709.19  372802.66  4528047.22  295270.06  358186.18  320447.04  131218.33  363344.18  1468465.79  9436231.04</span></a></code></pre></div>
 </div>
 <div id="database-connections" class="section level2">
 <h2 class="hasAnchor">

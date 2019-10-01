@@ -163,23 +163,23 @@ retail_orders %>%
 
 ### Focus
 
-To limit the pivot table to display only a subset of the categories, use
-`focus()`
+To limit the pivot table to display only a subset of the pivot table,
+use `focus()`
 
 ``` r
 retail_orders %>%
   rows(country) %>%
   columns(status) %>%
-  values(sum(sales)) %>%
+  values(total_sales = sum(sales)) %>%
   focus(
     country %in% c("Japan", "USA", "UK"), 
-    status == "Shipped"
-    ) 
+    status == "Shipped",
+    total_sales > 200000
+    )
 #>        Shipped     Total       
-#> Japan   188167.81   188167.81  
 #> UK      428472.21   428472.21  
 #> USA    3372204.28  3372204.28  
-#> Total   3988844.3   3988844.3
+#> Total  3800676.49  3800676.49
 ```
 
 ### Drill
@@ -281,18 +281,6 @@ orders <- retail_orders %>%
 
 ``` r
 orders %>%
-  rows(status)
-#> Cancelled     
-#> Disputed      
-#> In Process    
-#> On Hold       
-#> Resolved      
-#> Shipped       
-#> Total
-```
-
-``` r
-orders %>%
   rows(status) %>%
   columns(order_date) %>%
   values(sales_total)
@@ -304,6 +292,23 @@ orders %>%
 #> Resolved             0           0           0           0  
 #> Shipped     3439718.03  4528047.22  1323735.83  9291501.08  
 #> Total       3439718.03  4528047.22  1468465.79  9436231.04
+```
+
+``` r
+orders %>%
+  rows(status) %>%
+  columns(order_date) %>%
+  values(sales_total) %>%
+  drill(order_date)
+#>             2003                                                                                                                                          2004                                                                                                                                             2005                                                               Total       
+#>             1         2          3         4          5          6          7          8         9          10         11          12         Total       1          2          3          4          5          6          7          8          9          10         11          12         Total       1          2          3          4          5          Total                   
+#> Cancelled                                                                                                           0                                  0                                                      0          0                                                                              0                                                                              0  
+#> Disputed                                                                                                                                                                                                                                                                                                                                            0          0           0           0  
+#> In Process                                                                                                                                                                                                                                                                                                                                             144729.96   144729.96   144729.96  
+#> On Hold                                                                                                                                                                                                                                                                          0                      0                                           0          0           0           0  
+#> Resolved                                                                                                            0                                  0                                                                                                                         0                      0          0                     0                                 0           0  
+#> Shipped     129753.6  140836.19  174504.9  201609.55  192673.11  168082.56  187731.88  197809.3  263973.36  491029.46  1029837.66  261876.46  3439718.03  316577.42  311419.53  205733.73  206148.12  228080.73  186255.32  327144.09  461501.27  320750.91  552924.25  1038709.19  372802.66  4528047.22  295270.06  358186.18  320447.04  131218.33  218614.22  1323735.83  9291501.08  
+#> Total       129753.6  140836.19  174504.9  201609.55  192673.11  168082.56  187731.88  197809.3  263973.36  491029.46  1029837.66  261876.46  3439718.03  316577.42  311419.53  205733.73  206148.12  228080.73  186255.32  327144.09  461501.27  320750.91  552924.25  1038709.19  372802.66  4528047.22  295270.06  358186.18  320447.04  131218.33  363344.18  1468465.79  9436231.04
 ```
 
 ## Database connections

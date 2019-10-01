@@ -11,7 +11,13 @@
 #' retail_orders %>%
 #'   rows(status) %>%
 #'   columns(country) %>%
-#'   values(n())
+#'   values(total_sales = sum(sales)) %>%
+#'   focus(
+#'     country %in% c("Japan", "USA", "UK"),
+#'     status == "Shipped",
+#'     total_sales > 200000
+#'   )
+#'
 #' @export
 rows <- function(.data, ...) {
   set_cat(.data, "rows", ...)
