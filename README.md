@@ -24,6 +24,7 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
       - [Pivot](#pivot)
       - [Focus](#focus)
       - [Drill](#drill)
+      - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
   - [pivottabler](#pivottabler)
@@ -252,6 +253,41 @@ retail_orders %>%
 #>        5        457861.06  
 #>        Total   1791486.71  
 #> Total         10032628.85
+```
+
+### Convert to tibble
+
+The `as_tibble()` function is supported to convert the resulting pivot
+table into a rectangular `tibble()`
+
+``` r
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
+  values(sum(sales)) %>%
+  as_tibble()
+#> # A tibble: 19 x 7
+#>    row_name    Cancelled Disputed `In Process` `On Hold` Resolved  Shipped
+#>    <chr>           <dbl>    <dbl>        <dbl>     <dbl>    <dbl>    <dbl>
+#>  1 Australia         NA    14378.       43971.       NA       NA   572274.
+#>  2 Austria           NA       NA           NA        NA    28551.  173512.
+#>  3 Belgium           NA       NA         8412.       NA       NA   100001.
+#>  4 Canada            NA       NA           NA        NA       NA   224079.
+#>  5 Denmark           NA    26013.          NA        NA    24079.  195546.
+#>  6 Finland           NA       NA           NA        NA       NA   329582.
+#>  7 France            NA       NA        43785.       NA       NA  1067132.
+#>  8 Germany           NA       NA           NA        NA       NA   220472.
+#>  9 Ireland           NA       NA           NA        NA       NA    57756.
+#> 10 Italy             NA       NA           NA        NA       NA   374674.
+#> 11 Japan             NA       NA           NA        NA       NA   188168.
+#> 12 Norway            NA       NA           NA        NA       NA   307464.
+#> 13 Philippines       NA       NA           NA        NA       NA    94016.
+#> 14 Singapore         NA       NA           NA        NA       NA   288488.
+#> 15 Spain          50011.   31822.       35133.       NA    53816. 1044905.
+#> 16 Sweden         48711.      NA           NA     26260.      NA   135043.
+#> 17 Switzerland       NA       NA           NA        NA       NA   117714.
+#> 18 UK             50408.      NA           NA        NA       NA   428472.
+#> 19 USA            45358.      NA        13429.   152719.   44273. 3372204.
 ```
 
 ## Define dimensions and measures

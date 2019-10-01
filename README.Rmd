@@ -60,6 +60,7 @@ toc <- function() {
     - [Pivot](#pivot)
     - [Focus](#focus)
     - [Drill](#drill)
+    - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
   - [pivottabler](#pivottabler)
@@ -169,6 +170,19 @@ retail_orders %>%
   values(sum(sales)) %>%
   drill(order_date)
 ```
+
+### Convert to tibble
+
+The `as_tibble()` function is supported to convert the resulting pivot table into a rectangular `tibble()`
+
+```{r}
+retail_orders %>%
+  rows(country) %>%
+  columns(status) %>%
+  values(sum(sales)) %>%
+  as_tibble()
+```
+
 
 ## Define dimensions and measures
 

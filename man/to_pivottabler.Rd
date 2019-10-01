@@ -4,10 +4,12 @@
 \alias{to_pivottabler}
 \title{Coerce to a pivottabler object}
 \usage{
-to_pivottabler(x)
+to_pivottabler(x, remove_totals = FALSE)
 }
 \arguments{
 \item{x}{A pivot_prep or pivot_table object}
+
+\item{remove_totals}{Indicates if the totals are included in the pivot table}
 }
 \description{
 Coerce to a pivottabler object

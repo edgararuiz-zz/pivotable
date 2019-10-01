@@ -1,6 +1,7 @@
 #' Coerce to a pivottabler object
 #'
 #' @param x A pivot_prep or pivot_table object
+#' @param remove_totals Indicates if the totals are included in the pivot table
 #'
 #' @examples
 #'
@@ -12,17 +13,17 @@
 #'
 #' pt$asMatrix()
 #' @export
-to_pivottabler <- function(x) {
+to_pivottabler <- function(x, remove_totals = FALSE) {
   UseMethod("to_pivottabler")
 }
 
 #' @export
-to_pivottabler.pivot_prep <- function(x) {
-  to_pivottabler(x$.pivot_table)
+to_pivottabler.pivot_prep <- function(x, remove_totals = FALSE) {
+  to_pivottabler(x$.pivot_table, remove_totals = remove_totals)
 }
 
 #' @export
-to_pivottabler.pivot_table <- function(x) {
+to_pivottabler.pivot_table <- function(x, remove_totals = FALSE) {
   grp_tbl <- calculate_pivot(x)
 
   rows <- get_dim_quo(x$rows, x$level)
@@ -35,10 +36,12 @@ to_pivottabler.pivot_table <- function(x) {
   pt <- pivottabler::PivotTable$new()
   pt$addData(grp_tbl)
   if (!is.null(col_names)) {
-    for (i in seq_along(col_names)) pt$addColumnDataGroups(col_names[i])
+    for (i in seq_along(col_names))
+      pt$addColumnDataGroups(col_names[i], addTotal = !remove_totals)
   }
   if (!is.null(row_names)) {
-    for (i in seq_along(row_names)) pt$addRowDataGroups(row_names[i])
+    for (i in seq_along(row_names))
+      pt$addRowDataGroups(row_names[i], addTotal = !remove_totals)
   }
   if (!is.null(val_names)) {
     for (i in seq_along(val_names)) {
