@@ -27,6 +27,7 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
       - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
+      - [Measures and dimensions](#measures-and-dimensions)
   - [pivottabler](#pivottabler)
 
 ## Intro
@@ -255,6 +256,34 @@ retail_orders %>%
 #> Total         10032628.85
 ```
 
+A helper function called `dim_hierarchy_mqy()` creates a three level
+date hierarchy: year, quarter and month. The function will create the
+formulas to calculate each level, but those formulas will not be
+evaluated until the drilling into the level. The formulas are generic
+enough to work on database back-ends.
+
+``` r
+retail_orders %>%
+  rows(order_date = dim_hierarchy_mqy(orderdate)) %>%
+  values(sum(sales)) %>%
+  drill(order_date)
+#>               sum(sales)   
+#> 2003   1        445094.69  
+#>        2        562365.22  
+#>        3        649514.54  
+#>        4       1860005.09  
+#>        Total   3516979.54  
+#> 2004   1        833730.68  
+#>        2        766260.73  
+#>        3       1109396.27  
+#>        4       2014774.92  
+#>        Total    4724162.6  
+#> 2005   1       1071992.36  
+#>        2        719494.35  
+#>        Total   1791486.71  
+#> Total         10032628.85
+```
+
 ### Convert to tibble
 
 The `as_tibble()` function is supported to convert the resulting pivot
@@ -388,11 +417,44 @@ tbl_sales %>%
 #> Total        194487.48  72212.86   144729.96  178979.19  150718.28  9291501.08  10032628.85
 ```
 
+### Measures and dimensions
+
+It is also possible create a data definition against a database
+connection. The `dimensions()` and `measures()` calculations will not be
+send to the database until used in the pivot table.
+
+``` r
+orders_db <- tbl_sales %>%
+  dimensions(
+    status, 
+    country
+  ) %>%
+  measures(
+    orders_qty = n(), 
+    order_total = sum(sales, na.rm = TRUE),
+    sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0), na.rm = TRUE),
+    sales_total = sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0), na.rm = TRUE)
+    )
+```
+
+``` r
+orders_db %>%
+  columns(status) %>%
+  values(sales_total)
+#>   Cancelled  Disputed  In Process  On Hold  Resolved  Shipped     Total       
+#>           0         0   144729.96        0         0  9291501.08  9436231.04
+```
+
 ``` r
 dbDisconnect(con)
 ```
 
 ## pivottabler
+
+`pivotable` uses `pivottabler` to print the pivot table into the R
+console. The `to_pivottabler()` returns the actual `pivottabler` object.
+This allows you to further customize the pivot table using that
+package’s API.
 
 ``` r
 pt <- orders %>%

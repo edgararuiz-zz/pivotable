@@ -256,7 +256,7 @@ tbl_sales %>%
 It is also possible create a data definition against a database connection.  The `dimensions()` and `measures()` calculations will not be send to the database until used in the pivot table.
 
 ```{r}
-orders <- tbl_sales %>%
+orders_db <- tbl_sales %>%
   dimensions(
     status, 
     country
@@ -270,7 +270,7 @@ orders <- tbl_sales %>%
 ```
 
 ```{r}
-orders %>%
+orders_db %>%
   columns(status) %>%
   values(sales_total)
 ```
