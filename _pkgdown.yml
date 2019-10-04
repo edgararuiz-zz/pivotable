@@ -13,6 +13,12 @@ reference:
     - dimensions
     - measures
     - dim_hierarchy
+    - dim_hierarchy_mqy
   - title: Pivot table output
     contents:
     - to_pivottabler
+  - title: Data
+    contents:
+    - retail_orders
+    - retail_orders_details
+

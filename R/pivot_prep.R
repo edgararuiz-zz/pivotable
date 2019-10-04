@@ -88,6 +88,7 @@ get_src.pivot_prep <- function(x) {
   x$.struct$src
 }
 
-get_src.data.frame <- function(x) {
+get_src.default <- function(x) {
   x
 }
+

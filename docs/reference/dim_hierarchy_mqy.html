@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • pivotable</title>
+<title>Builds a date hierarchy dimension — dim_hierarchy_mqy • pivotable</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Builds a date hierarchy dimension — dim_hierarchy_mqy" />
+<meta property="og:description" content="Builds a date hierarchy dimension" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -101,129 +103,51 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Builds a date hierarchy dimension</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/drill.R'><code>R/drill.R</code></a></small>
+    <div class="hidden name"><code>dim_hierarchy_mqy.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Builds a date hierarchy dimension</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>dim_hierarchy_mqy</span>(<span class='no'>x</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-pivot-table" class="hasAnchor"><a href="#section-pivot-table" class="anchor"></a>Pivot table</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="rows-cols.html">rows()</a></code> <code><a href="rows-cols.html">columns()</a></code> <code><a href="rows-cols.html">focus()</a></code> </p>
-        </td>
-        <td><p>Manipulate pivot tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="values.html">values()</a></code> </p>
-        </td>
-        <td><p>Add an aggregation to a pivot table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="drill.html">drill()</a></code> </p>
-        </td>
-        <td><p>Drill into a hierarchy dimension</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pivot.html">pivot()</a></code> </p>
-        </td>
-        <td><p>Switch the columns with the rows on a pivot table</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-pivot-design" class="hasAnchor"><a href="#section-pivot-design" class="anchor"></a>Pivot design</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="dimensions.html">dimensions()</a></code> </p>
-        </td>
-        <td><p>Develop grouping categories for pivot tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="measures.html">measures()</a></code> </p>
-        </td>
-        <td><p>Develop values to aggregate by for pivot tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dim_hierarchy.html">dim_hierarchy()</a></code> </p>
-        </td>
-        <td><p>Ordered list to create a  hierarchical dimension</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dim_hierarchy_mqy.html">dim_hierarchy_mqy()</a></code> </p>
-        </td>
-        <td><p>Builds a date hierarchy dimension</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-pivot-table-output" class="hasAnchor"><a href="#section-pivot-table-output" class="anchor"></a>Pivot table output</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="to_pivottabler.html">to_pivottabler()</a></code> </p>
-        </td>
-        <td><p>Coerce to a pivottabler object</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="retail_orders.html">retail_orders</a></code> </p>
-        </td>
-        <td><p>Samples sales data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="retail_orders_details.html">retail_orders_details</a></code> </p>
-        </td>
-        <td><p>Samples sales data</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A date variable</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Helper function that creates the unevaluated code that creates the
+year, quarter and month on the fly.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'>dim_hierarchy_mqy</span>(<span class='no'>orderdate</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='values.html'>values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='drill.html'>drill</a></span>(<span class='no'>order_date</span>)</div><div class='output co'>#&gt;   2003                   2004                   2005           Total  
+#&gt;   1   2   3   4   Total  1   2   3   4   Total  1   2   Total         
+#&gt;   14  19  19  52    104  25  28  34  57    144  36  23     59    307  </div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-pivot-table">Pivot table</a></li>
-      <li><a href="#section-pivot-design">Pivot design</a></li>
-      <li><a href="#section-pivot-table-output">Pivot table output</a></li>
-      <li><a href="#section-data">Data</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

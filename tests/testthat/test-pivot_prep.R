@@ -6,7 +6,7 @@ test_that("Pivot preparation works", {
       year = as.integer(format(orderdate, "%Y")),
       month = as.integer(format(orderdate, "%m"))
     )) %>%
-    measures(no_orders = n(), total_orders = sum(sales))
+    measures(no_orders = dplyr::n(), total_orders = sum(sales))
   expect_equal(class(sales_pivot), "pivot_prep")
   expect_output(print(sales_pivot))
   expect_output(print(values(sales_pivot, no_orders)))
@@ -29,7 +29,7 @@ test_that("Pivot preparation works", {
       year = as.integer(format(orderdate, "%Y")),
       month = as.integer(format(orderdate, "%m"))
       )) %>%
-    measures(no_orders = n(), total_orders = sum(sales)) %>%
+    measures(no_orders = dplyr::n(), total_orders = sum(sales)) %>%
     rows(order_date) %>%
     values(no_orders)
 

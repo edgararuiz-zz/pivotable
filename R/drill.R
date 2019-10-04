@@ -19,6 +19,34 @@ dim_hierarchy <- function(...) {
   )
 }
 
+#' Builds a date hierarchy dimension
+#'
+#' @details
+#'
+#' Helper function that creates the unevaluated code that creates the
+#' year, quarter and month on the fly.
+#'
+#' @param x A date variable
+#'
+#' @examples
+#'
+#' retail_orders %>%
+#'   columns(order_date = dim_hierarchy_mqy(orderdate)) %>%
+#'   values(n()) %>%
+#'   drill(order_date)
+#'
+#' @export
+dim_hierarchy_mqy <- function(x) {
+  x <- enquo(x)
+  dim_hierarchy(
+    year = as.integer(format(!! x, "%Y")),
+    quarter = ifelse(as.integer(format(!! x, "%m")) <= 3, 1,
+                     ifelse(as.integer(format(!! x, "%m")) <= 6, 2,
+                            ifelse(as.integer(format(!! x, "%m")) <= 9, 3, 4))),
+    month = as.integer(format(!! x, "%m"))
+  )
+}
+
 #' Drill into a hierarchy dimension
 #'
 #' @param .data A data.frame or a pivot_prep object
