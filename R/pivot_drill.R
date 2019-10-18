@@ -5,11 +5,11 @@
 #' @examples
 #'
 #' retail_orders %>%
-#'   rows(order_date = dim_hierarchy(
+#'   pivot_rows(order_date = dim_hierarchy(
 #'     year = as.integer(format(orderdate, "%Y")),
 #'     month = as.integer(format(orderdate, "%m"))
 #'   )) %>%
-#'   values(sum(sales))
+#'   pivot_values(sum(sales))
 #'
 #' @export
 dim_hierarchy <- function(...) {
@@ -31,9 +31,9 @@ dim_hierarchy <- function(...) {
 #' @examples
 #'
 #' retail_orders %>%
-#'   columns(order_date = dim_hierarchy_mqy(orderdate)) %>%
-#'   values(n()) %>%
-#'   drill(order_date)
+#'   pivot_columns(order_date = dim_hierarchy_mqy(orderdate)) %>%
+#'   pivot_values(n()) %>%
+#'   pivot_drill(order_date)
 #'
 #' @export
 dim_hierarchy_mqy <- function(x) {
@@ -55,26 +55,27 @@ dim_hierarchy_mqy <- function(x) {
 #' @examples
 #'
 #' retail_orders %>%
-#'   rows(order_date = dim_hierarchy(
+#'   pivot_rows(order_date = dim_hierarchy(
 #'     year = as.integer(format(orderdate, "%Y")),
 #'     month = as.integer(format(orderdate, "%m"))
 #'   )) %>%
-#'   values(sum(sales))
+#'   pivot_values(sum(sales)) %>%
+#'   pivot_drill(order_date)
 #'
 #' @export
-drill <- function(.data, ...) {
-  set_drill(.data, ...)
+pivot_drill <- function(.data, ...) {
+  set_pivot_drill(.data, ...)
 }
 
-set_drill <- function(.data, ...) {
-  UseMethod("set_drill")
+set_pivot_drill <- function(.data, ...) {
+  UseMethod("set_pivot_drill")
 }
 
-set_drill.pivot_prep <- function(.data, ...) {
-  set_drill(.data$.pivot_table, ...)
+set_pivot_drill.pivot_prep <- function(.data, ...) {
+  set_pivot_drill(.data$.pivot_table, ...)
 }
 
-set_drill.pivot_table <- function(.data, ...) {
+set_pivot_drill.pivot_table <- function(.data, ...) {
   vars <- enquos(...)
   fields <- lapply(vars, function(x) as_label(x))
   fields <- as.character(fields)

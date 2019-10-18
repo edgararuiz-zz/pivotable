@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Manipulate pivot tables — rows-cols • pivotable</title>
+<title>Switch the columns with the rows on a pivot table — pivot_flip • pivotable</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Manipulate pivot tables — rows-cols" />
-<meta property="og:description" content="Manipulate pivot tables" />
+<meta property="og:title" content="Switch the columns with the rows on a pivot table — pivot_flip" />
+<meta property="og:description" content="Switch the columns with the rows on a pivot table" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,49 +105,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Manipulate pivot tables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot_verbs.R'><code>R/pivot_verbs.R</code></a></small>
-    <div class="hidden name"><code>rows-cols.Rd</code></div>
+    <h1>Switch the columns with the rows on a pivot table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot_flip.R'><code>R/pivot_flip.R</code></a></small>
+    <div class="hidden name"><code>pivot_flip.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Manipulate pivot tables</p>
+    <p>Switch the columns with the rows on a pivot table</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pivot_rows</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='fu'>pivot_columns</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='fu'>pivot_focus</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pivot_flip</span>(<span class='no'>.data</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>.data</th>
-      <td><p>A data.frame or a pivot_prep object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Variables or calculation to group by</p></td>
+      <td><p>A pivot_table object</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot_rows</span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot_columns</span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='kw'>total_sales</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot_focus</span>(
-    <span class='no'>country</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Japan"</span>, <span class='st'>"USA"</span>, <span class='st'>"UK"</span>),
-    <span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"Shipped"</span>,
-    <span class='no'>total_sales</span> <span class='kw'>&gt;</span> <span class='fl'>200000</span>
-  )</div><div class='output co'>#&gt;          UK         USA         Total       
-#&gt; Shipped  428472.21  3372204.28  3800676.49  
-#&gt; Total    428472.21  3372204.28  3800676.49  </div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>pivot_columns</a></span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'>pivot_flip</span>()</div><div class='output co'>#&gt;              Cancelled  Disputed  In Process  On Hold  Resolved  Shipped  Total  
+#&gt; Australia                      1           1                          17     19  
+#&gt; Austria                                                       1        6      7  
+#&gt; Belgium                                    1                           6      7  
+#&gt; Canada                                                                 7      7  
+#&gt; Denmark                        1                              1        5      7  
+#&gt; Finland                                                                9      9  
+#&gt; France                                     1                          36     37  
+#&gt; Germany                                                                7      7  
+#&gt; Ireland                                                                2      2  
+#&gt; Italy                                                                  8      8  
+#&gt; Japan                                                                  6      6  
+#&gt; Norway                                                                 9      9  
+#&gt; Philippines                                                            3      3  
+#&gt; Singapore                                                              9      9  
+#&gt; Spain                1         1           1                  1       32     36  
+#&gt; Sweden               1                              1                  5      7  
+#&gt; Switzerland                                                            2      2  
+#&gt; UK                   1                                                12     13  
+#&gt; USA                  1                     2        3         1      105    112  
+#&gt; Total                4         3           6        4         4      286    307  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

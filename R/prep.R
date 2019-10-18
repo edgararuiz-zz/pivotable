@@ -1,14 +1,3 @@
-pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL) {
-  struc <- c(measures, dimensions)
-  struc$.struct <- list(
-    dimensions = dimensions,
-    measures = measures,
-    src = src
-  )
-  struc$.pivot_table <- pivot_table()
-  structure(struc, class = "pivot_prep")
-}
-
 #' Develop grouping categories for pivot tables
 #'
 #' @param x A pivot_prep object
@@ -17,18 +6,18 @@ pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL) {
 #' @examples
 #'
 #' sales_pivot <- retail_orders %>%
-#'   dimensions(order_date = dim_hierarchy(
+#'   prep_dimensions(order_date = dim_hierarchy(
 #'     year = as.integer(format(orderdate, "%Y")),
 #'     month = as.integer(format(orderdate, "%m"))
 #'   )) %>%
-#'   measures(no_orders = n(), total_orders = sum(sales))
+#'   prep_measures(no_orders = n(), total_orders = sum(sales))
 #'
 #' sales_pivot %>%
-#'   columns(order_date) %>%
-#'   values(total_orders)
+#'   pivot_columns(order_date) %>%
+#'   pivot_values(total_orders)
 #'
 #' @export
-dimensions <- function(x, ...) {
+prep_dimensions <- function(x, ...) {
   pivot_prep(
     dimensions = name_quos(...),
     measures = if (is.null(x[[".struct"]])) {
@@ -48,18 +37,18 @@ dimensions <- function(x, ...) {
 #' @examples
 #'
 #' sales_pivot <- retail_orders %>%
-#'   dimensions(order_date = dim_hierarchy(
+#'   prep_dimensions(order_date = dim_hierarchy(
 #'     year = as.integer(format(orderdate, "%Y")),
 #'     month = as.integer(format(orderdate, "%m"))
 #'   )) %>%
-#'   measures(no_orders = n(), total_orders = sum(sales))
+#'   prep_measures(no_orders = n(), total_orders = sum(sales))
 #'
 #' sales_pivot %>%
-#'   columns(order_date) %>%
-#'   values(total_orders)
+#'   pivot_columns(order_date) %>%
+#'   pivot_values(total_orders)
 #'
 #' @export
-measures <- function(x, ...) {
+prep_measures <- function(x, ...) {
   pivot_prep(
     dimensions = if (is.null(x[[".struct"]])) {
       NULL
@@ -92,3 +81,13 @@ get_src.default <- function(x) {
   x
 }
 
+pivot_prep <- function(dimensions = NULL, measures = NULL, src = NULL) {
+  struc <- c(measures, dimensions)
+  struc$.struct <- list(
+    dimensions = dimensions,
+    measures = measures,
+    src = src
+  )
+  struc$.pivot_table <- pivot_table()
+  structure(struc, class = "pivot_prep")
+}

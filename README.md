@@ -33,18 +33,18 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
 ## Intro
 
 Create pivot tables with commonly used terms as commands such as:
-`rows()`, `columns()` and `values()`, and string them together with a
-pipe (`%>%`).
+`pivot_rows()`, `pivot_columns()` and `pivot_values()`, and string them
+together with a pipe (`%>%`).
 
 The idea is that the creation of a pivot table is done using code, as
-opposed to drag-and-drop. This means that actions such as `pivot()` and
-`drill()` are also possible, and performed using R commands.
+opposed to drag-and-drop. This means that actions such as `pivot_flip()`
+and `pivot_drill()` are also possible, and performed using R commands.
 
 Another goal of `pivotable` is to provide a framework to easily define
-`measures()` and `dimensions()` of your data. The resulting R object can
-then be used as the source of the pivot table. This should make it
-possible to create consistent analysis, and subsequent reporting of the
-data.
+`prep_measures()` and `prep_dimensions()` of your data. The resulting R
+object can then be used as the source of the pivot table. This should
+make it possible to create consistent analysis, and subsequent reporting
+of the data.
 
 ## Installation
 
@@ -57,7 +57,7 @@ remotes::install_github("edgararuiz/pivotable")
 
 ### Values
 
-The `values()` function is used to add an aggregation in the pivot
+The `pivot_values()` function is used to add an aggregation in the pivot
 table. When used against a data frame, you will have to provide an
 aggregation formula of a field, or fields, within the data. If using a
 pre-defined set of dimensions and measures, then simply call the desired
@@ -69,21 +69,21 @@ library(dplyr)
 library(pivotable)
 
 retail_orders %>%
-  values(sum(sales))
+  pivot_values(sum(sales))
 #>   sum(sales)   
 #>   10032628.85
 ```
 
 ### Rows
 
-As its name indicates, `rows()` adds a data grouping based on the
+As its name indicates, `pivot_rows()` adds a data grouping based on the
 variable or variables passed to the function. The aggregation is split
 by the variable(s) and each total is displayed by row.
 
 ``` r
 retail_orders %>%
-  rows(country) %>%
-  values(sum(sales)) 
+  pivot_rows(country) %>%
+  pivot_values(sum(sales)) 
 #>              sum(sales)   
 #> Australia       630623.1  
 #> Austria        202062.53  
@@ -109,15 +109,15 @@ retail_orders %>%
 
 ### Columns
 
-As its name indicates, `rows()` adds a data grouping based on the
+As its name indicates, `pivot_rows()` adds a data grouping based on the
 variable or variables passed to the function. The aggregation is split
 by the variable(s) and each total is displayed by column.
 
 ``` r
 retail_orders %>%
-  rows(country) %>%
-  columns(status) %>%
-  values(sum(sales))
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(sum(sales))
 #>              Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        
 #> Australia               14378.09    43971.43                         572273.58     630623.1  
 #> Austria                                                   28550.59   173511.94    202062.53  
@@ -143,16 +143,16 @@ retail_orders %>%
 
 ### Pivot
 
-Instead of “manually” switching the content of `rows()` and `columns()`,
-specially during data exploration, simply pipe the code to the `pivot()`
-command.
+Instead of “manually” switching the content of `pivot_rows()` and
+`pivot_columns()`, specially during data exploration, simply pipe the
+code to the `pivot_flip()` command.
 
 ``` r
 retail_orders %>%
-  rows(country) %>%
-  columns(status) %>%
-  values(sum(sales)) %>%
-  pivot()
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(sum(sales)) %>%
+  pivot_flip()
 #>             Australia  Austria    Belgium    Canada     Denmark    Finland    France      Germany    Ireland   Italy      Japan      Norway    Philippines  Singapore  Spain       Sweden     Switzerland  UK         USA         Total        
 #> Cancelled                                                                                                                                                                50010.65   48710.92                50408.25    45357.66    194487.48  
 #> Disputed     14378.09                                    26012.87                                                                                                         31821.9                                                    72212.86  
@@ -170,10 +170,10 @@ use `focus()`
 
 ``` r
 retail_orders %>%
-  rows(country) %>%
-  columns(status) %>%
-  values(total_sales = sum(sales)) %>%
-  focus(
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(total_sales = sum(sales)) %>%
+  pivot_focus(
     country %in% c("Japan", "USA", "UK"), 
     status == "Shipped",
     total_sales > 200000
@@ -190,17 +190,17 @@ Another powerful thing of pivot tables is the ability to drill down into
 the data. To do this in `pivotable`, you will need to define a hierarchy
 dimension using the `dim_hierarchy()` command. That command is made to
 be called within one of the dimension definition functions, such as
-`rows()` or `columns()`. The order of the hierarchy is defined by the
-order in which the variables is passed to the function.
+`pivot_rows()` or `pivot_columns()`. The order of the hierarchy is
+defined by the order in which the variables is passed to the function.
 
 ``` r
 retail_orders %>%
-  rows(order_date = dim_hierarchy(
+  pivot_rows(order_date = dim_hierarchy(
     year = as.integer(format(orderdate, "%Y")),
     month = as.integer(format(orderdate, "%m"))
     )
   ) %>%
-  values(sum(sales))
+  pivot_values(sum(sales))
 #>        sum(sales)   
 #> 2003    3516979.54  
 #> 2004     4724162.6  
@@ -208,18 +208,18 @@ retail_orders %>%
 #> Total  10032628.85
 ```
 
-The `drill()` command will add the next level of the hierarchy dimension
-to the pivot table.
+The `pivot_drill()` command will add the next level of the hierarchy
+dimension to the pivot table.
 
 ``` r
 retail_orders %>%
-  rows(order_date = dim_hierarchy(
+  pivot_rows(order_date = dim_hierarchy(
     year = as.integer(format(orderdate, "%Y")),
     month = as.integer(format(orderdate, "%m"))
     )
   ) %>%
-  values(sum(sales)) %>%
-  drill(order_date)
+  pivot_values(sum(sales)) %>%
+  pivot_drill(order_date)
 #>               sum(sales)   
 #> 2003   1         129753.6  
 #>        2        140836.19  
@@ -264,9 +264,9 @@ enough to work on database back-ends.
 
 ``` r
 retail_orders %>%
-  rows(order_date = dim_hierarchy_mqy(orderdate)) %>%
-  values(sum(sales)) %>%
-  drill(order_date)
+  pivot_rows(order_date = dim_hierarchy_mqy(orderdate)) %>%
+  pivot_values(sum(sales)) %>%
+  pivot_drill(order_date)
 #>               sum(sales)   
 #> 2003   1        445094.69  
 #>        2        562365.22  
@@ -291,9 +291,9 @@ table into a rectangular `tibble()`
 
 ``` r
 retail_orders %>%
-  rows(country) %>%
-  columns(status) %>%
-  values(sum(sales)) %>%
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(sum(sales)) %>%
   as_tibble()
 #> # A tibble: 19 x 7
 #>    row_name    Cancelled Disputed `In Process` `On Hold` Resolved  Shipped
@@ -328,7 +328,7 @@ creates a consistent reporting.
 
 ``` r
 orders <- retail_orders %>%
-  dimensions(
+  prep_dimensions(
     order_date = dim_hierarchy(
       year = as.integer(format(orderdate, "%Y")),
       month = as.integer(format(orderdate, "%m"))
@@ -336,7 +336,7 @@ orders <- retail_orders %>%
     status, 
     country
   ) %>%
-  measures(
+  prep_measures(
     orders_qty = n(), 
     order_total = sum(sales),
     sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
@@ -346,9 +346,9 @@ orders <- retail_orders %>%
 
 ``` r
 orders %>%
-  rows(status) %>%
-  columns(order_date) %>%
-  values(sales_total)
+  pivot_rows(status) %>%
+  pivot_columns(order_date) %>%
+  pivot_values(sales_total)
 #>             2003        2004        2005        Total       
 #> Cancelled            0           0                       0  
 #> Disputed                                     0           0  
@@ -361,10 +361,10 @@ orders %>%
 
 ``` r
 orders %>%
-  rows(status) %>%
-  columns(order_date) %>%
-  values(sales_total) %>%
-  drill(order_date)
+  pivot_rows(status) %>%
+  pivot_columns(order_date) %>%
+  pivot_values(sales_total) %>%
+  pivot_drill(order_date)
 #>             2003                                                                                                                                          2004                                                                                                                                             2005                                                               Total       
 #>             1         2          3         4          5          6          7          8         9          10         11          12         Total       1          2          3          4          5          6          7          8          9          10         11          12         Total       1          2          3          4          5          Total                   
 #> Cancelled                                                                                                           0                                  0                                                      0          0                                                                              0                                                                              0  
@@ -391,9 +391,9 @@ con <- dbConnect(SQLite(), ":memory:")
 tbl_sales <- copy_to(con, retail_orders)
 
 tbl_sales %>%
-  columns(status) %>%
-  rows(country) %>%
-  values(sum(sales, na.rm = TRUE))
+  pivot_columns(status) %>%
+  pivot_rows(country) %>%
+  pivot_values(sum(sales, na.rm = TRUE))
 #>              Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        
 #> Australia               14378.09    43971.43                         572273.58     630623.1  
 #> Austria                                                   28550.59   173511.94    202062.53  
@@ -420,16 +420,16 @@ tbl_sales %>%
 ### Measures and dimensions
 
 It is also possible create a data definition against a database
-connection. The `dimensions()` and `measures()` calculations will not be
-send to the database until used in the pivot table.
+connection. The `prep_dimensions()` and `prep_measures()` calculations
+will not be send to the database until used in the pivot table.
 
 ``` r
 orders_db <- tbl_sales %>%
-  dimensions(
+  prep_dimensions(
     status, 
     country
   ) %>%
-  measures(
+  prep_measures(
     orders_qty = n(), 
     order_total = sum(sales, na.rm = TRUE),
     sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0), na.rm = TRUE),
@@ -439,8 +439,8 @@ orders_db <- tbl_sales %>%
 
 ``` r
 orders_db %>%
-  columns(status) %>%
-  values(sales_total)
+  pivot_columns(status) %>%
+  pivot_values(sales_total)
 #>   Cancelled  Disputed  In Process  On Hold  Resolved  Shipped     Total       
 #>           0         0   144729.96        0         0  9291501.08  9436231.04
 ```
@@ -458,8 +458,8 @@ package’s API.
 
 ``` r
 pt <- orders %>%
-  rows(order_date) %>%
-  values(orders_qty) %>%
+  pivot_rows(order_date) %>%
+  pivot_values(orders_qty) %>%
   to_pivottabler()
 
 pt$asMatrix(repeatHeaders = TRUE, includeHeaders = TRUE)

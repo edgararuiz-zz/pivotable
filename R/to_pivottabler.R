@@ -6,9 +6,9 @@
 #' @examples
 #'
 #' pt <- retail_orders %>%
-#'   rows(status) %>%
-#'   columns(country) %>%
-#'   values(n()) %>%
+#'   pivot_rows(status) %>%
+#'   pivot_columns(country) %>%
+#'   pivot_values(n()) %>%
 #'   to_pivottabler()
 #'
 #' pt$asMatrix()

@@ -1,6 +1,6 @@
 Package: pivotable
 Title: Create pivot tables
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R:
     person("Edgar", "Ruiz", email = "edgar@rstudio.com", role = c("aut", "cre"))
 Description: Design data models for pivot tables, and easily create pivot tables on the fly.

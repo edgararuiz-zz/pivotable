@@ -1,9 +1,9 @@
 context("coerce table")
 
 test_that("from pivot_table", {
-  t <- mtcars %>%
-    columns(am) %>%
-    rows(cyl) %>%
-    values(sum(mpg))
+  t <- retail_orders %>%
+    pivot_columns(country) %>%
+    pivot_rows(status) %>%
+    pivot_values(sum(sales))
   expect_is(as_tibble(t), "tbl")
 })

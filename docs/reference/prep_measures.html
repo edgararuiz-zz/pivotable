@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • pivotable</title>
+<title>Develop values to aggregate by for pivot tables — prep_measures • pivotable</title>
 
 
 <!-- jquery -->
@@ -29,13 +29,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="Develop values to aggregate by for pivot tables — prep_measures" />
+<meta property="og:description" content="Develop values to aggregate by for pivot tables" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -66,7 +68,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">pivotable</a>
+        <a class="navbar-link" href="../index.html">pivotable</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
@@ -74,13 +76,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -101,17 +103,57 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Develop values to aggregate by for pivot tables</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/prep.R'><code>R/prep.R</code></a></small>
+    <div class="hidden name"><code>prep_measures.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Develop values to aggregate by for pivot tables</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>prep_measures</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A pivot_prep object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>A set of variable or named variables</p></td>
+    </tr>
+    </table>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='no'>sales_pivot</span> <span class='kw'>&lt;-</span> <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='prep_dimensions.html'>prep_dimensions</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'><a href='dim_hierarchy.html'>dim_hierarchy</a></span>(
+    <span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%Y"</span>)),
+    <span class='kw'>month</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%m"</span>))
+  )) <span class='kw'>%&gt;%</span>
+  <span class='fu'>prep_measures</span>(<span class='kw'>no_orders</span> <span class='kw'>=</span> <span class='fu'>n</span>(), <span class='kw'>total_orders</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>))
+
+<span class='no'>sales_pivot</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>pivot_columns</a></span>(<span class='no'>order_date</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='no'>total_orders</span>)</div><div class='output co'>#&gt;   2003        2004       2005        Total        
+#&gt;   3516979.54  4724162.6  1791486.71  10032628.85  </div><div class='input'>
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
-
 </div>
-
 
 
       <footer>

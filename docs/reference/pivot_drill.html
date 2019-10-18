@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Manipulate pivot tables — rows-cols • pivotable</title>
+<title>Drill into a hierarchy dimension — pivot_drill • pivotable</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Manipulate pivot tables — rows-cols" />
-<meta property="og:description" content="Manipulate pivot tables" />
+<meta property="og:title" content="Drill into a hierarchy dimension — pivot_drill" />
+<meta property="og:description" content="Drill into a hierarchy dimension" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,20 +105,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Manipulate pivot tables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot_verbs.R'><code>R/pivot_verbs.R</code></a></small>
-    <div class="hidden name"><code>rows-cols.Rd</code></div>
+    <h1>Drill into a hierarchy dimension</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot_drill.R'><code>R/pivot_drill.R</code></a></small>
+    <div class="hidden name"><code>pivot_drill.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Manipulate pivot tables</p>
+    <p>Drill into a hierarchy dimension</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pivot_rows</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='fu'>pivot_columns</span>(<span class='no'>.data</span>, <span class='no'>...</span>)
-
-<span class='fu'>pivot_focus</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pivot_drill</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,7 +125,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Variables or calculation to group by</p></td>
+      <td><p>Variable or variables to drill by</p></td>
     </tr>
     </table>
 
@@ -137,16 +133,45 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot_rows</span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot_columns</span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='kw'>total_sales</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>pivot_focus</span>(
-    <span class='no'>country</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Japan"</span>, <span class='st'>"USA"</span>, <span class='st'>"UK"</span>),
-    <span class='no'>status</span> <span class='kw'>==</span> <span class='st'>"Shipped"</span>,
-    <span class='no'>total_sales</span> <span class='kw'>&gt;</span> <span class='fl'>200000</span>
-  )</div><div class='output co'>#&gt;          UK         USA         Total       
-#&gt; Shipped  428472.21  3372204.28  3800676.49  
-#&gt; Total    428472.21  3372204.28  3800676.49  </div><div class='input'>
+  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'><a href='dim_hierarchy.html'>dim_hierarchy</a></span>(
+    <span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%Y"</span>)),
+    <span class='kw'>month</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%m"</span>))
+  )) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'>pivot_drill</span>(<span class='no'>order_date</span>)</div><div class='output co'>#&gt;               sum(sales)   
+#&gt; 2003   1         129753.6  
+#&gt;        2        140836.19  
+#&gt;        3         174504.9  
+#&gt;        4        201609.55  
+#&gt;        5        192673.11  
+#&gt;        6        168082.56  
+#&gt;        7        187731.88  
+#&gt;        8         197809.3  
+#&gt;        9        263973.36  
+#&gt;        10       568290.97  
+#&gt;        11      1029837.66  
+#&gt;        12       261876.46  
+#&gt;        Total   3516979.54  
+#&gt; 2004   1        316577.42  
+#&gt;        2        311419.53  
+#&gt;        3        205733.73  
+#&gt;        4        206148.12  
+#&gt;        5        273438.39  
+#&gt;        6        286674.22  
+#&gt;        7        327144.09  
+#&gt;        8        461501.27  
+#&gt;        9        320750.91  
+#&gt;        10       552924.25  
+#&gt;        11      1089048.01  
+#&gt;        12       372802.66  
+#&gt;        Total    4724162.6  
+#&gt; 2005   1        339543.42  
+#&gt;        2        358186.18  
+#&gt;        3        374262.76  
+#&gt;        4        261633.29  
+#&gt;        5        457861.06  
+#&gt;        Total   1791486.71  
+#&gt; Total         10032628.85  </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

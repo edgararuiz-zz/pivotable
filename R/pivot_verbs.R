@@ -9,29 +9,29 @@
 #' @examples
 #'
 #' retail_orders %>%
-#'   rows(status) %>%
-#'   columns(country) %>%
-#'   values(total_sales = sum(sales)) %>%
-#'   focus(
+#'   pivot_rows(status) %>%
+#'   pivot_columns(country) %>%
+#'   pivot_values(total_sales = sum(sales)) %>%
+#'   pivot_focus(
 #'     country %in% c("Japan", "USA", "UK"),
 #'     status == "Shipped",
 #'     total_sales > 200000
 #'   )
 #'
 #' @export
-rows <- function(.data, ...) {
+pivot_rows <- function(.data, ...) {
   set_cat(.data, "rows", ...)
 }
 
 #' @rdname rows-cols
 #' @export
-columns <- function(.data, ...) {
+pivot_columns <- function(.data, ...) {
   set_cat(.data, "columns", ...)
 }
 
 #' @rdname rows-cols
 #' @export
-focus <- function(.data, ...) {
+pivot_focus <- function(.data, ...) {
   set_cat(.data, "focus", ...)
 }
 
@@ -43,10 +43,10 @@ focus <- function(.data, ...) {
 #' @examples
 #'
 #' retail_orders %>%
-#'   rows(status) %>%
-#'   values(n())
+#'   pivot_rows(status) %>%
+#'   pivot_values(n())
 #'
 #' @export
-values <- function(.data, ...) {
+pivot_values <- function(.data, ...) {
   set_cat(.data, "values", ...)
 }

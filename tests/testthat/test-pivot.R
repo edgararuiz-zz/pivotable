@@ -1,10 +1,9 @@
 context("pivot")
 
 test_that("pivot", {
-  t <- mtcars %>%
-    columns(am) %>%
-    rows(cyl) %>%
-    values(mean(mpg)) %>%
-    focus(cyl == 6)
-  expect_is(pivot(t), "pivot_table")
+  t <- retail_orders %>%
+    pivot_columns(country) %>%
+    pivot_rows(status) %>%
+    pivot_values(n())
+  expect_is(pivot_flip(t), "pivot_table")
 })

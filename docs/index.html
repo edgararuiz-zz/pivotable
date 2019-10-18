@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">pivotable</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -98,9 +98,9 @@
 <div id="intro" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intro" class="anchor"></a>Intro</h2>
-<p>Create pivot tables with commonly used terms as commands such as: <code><a href="reference/rows-cols.html">rows()</a></code>, <code><a href="reference/rows-cols.html">columns()</a></code> and <code><a href="reference/values.html">values()</a></code>, and string them together with a pipe (<code><a href="reference/pipe.html">%&gt;%</a></code>).</p>
-<p>The idea is that the creation of a pivot table is done using code, as opposed to drag-and-drop. This means that actions such as <code><a href="reference/pivot.html">pivot()</a></code> and <code><a href="reference/drill.html">drill()</a></code> are also possible, and performed using R commands.</p>
-<p>Another goal of <code>pivotable</code> is to provide a framework to easily define <code><a href="reference/measures.html">measures()</a></code> and <code><a href="reference/dimensions.html">dimensions()</a></code> of your data. The resulting R object can then be used as the source of the pivot table. This should make it possible to create consistent analysis, and subsequent reporting of the data.</p>
+<p>Create pivot tables with commonly used terms as commands such as: <code><a href="reference/rows-cols.html">pivot_rows()</a></code>, <code><a href="reference/rows-cols.html">pivot_columns()</a></code> and <code><a href="reference/pivot_values.html">pivot_values()</a></code>, and string them together with a pipe (<code><a href="reference/pipe.html">%&gt;%</a></code>).</p>
+<p>The idea is that the creation of a pivot table is done using code, as opposed to drag-and-drop. This means that actions such as <code><a href="reference/pivot_flip.html">pivot_flip()</a></code> and <code><a href="reference/pivot_drill.html">pivot_drill()</a></code> are also possible, and performed using R commands.</p>
+<p>Another goal of <code>pivotable</code> is to provide a framework to easily define <code><a href="reference/prep_measures.html">prep_measures()</a></code> and <code><a href="reference/prep_dimensions.html">prep_dimensions()</a></code> of your data. The resulting R object can then be used as the source of the pivot table. This should make it possible to create consistent analysis, and subsequent reporting of the data.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -114,22 +114,22 @@
 <div id="values" class="section level3">
 <h3 class="hasAnchor">
 <a href="#values" class="anchor"></a>Values</h3>
-<p>The <code><a href="reference/values.html">values()</a></code> function is used to add an aggregation in the pivot table. When used against a data frame, you will have to provide an aggregation formula of a field, or fields, within the data. If using a pre-defined set of dimensions and measures, then simply call the desired measure field, no need to re-aggregate. For more info see <a href="#define-dimensions-and-measures">Define dimensions and measures</a>.</p>
+<p>The <code><a href="reference/pivot_values.html">pivot_values()</a></code> function is used to add an aggregation in the pivot table. When used against a data frame, you will have to provide an aggregation formula of a field, or fields, within the data. If using a pre-defined set of dimensions and measures, then simply call the desired measure field, no need to re-aggregate. For more info see <a href="#define-dimensions-and-measures">Define dimensions and measures</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pivotable)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales))</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales))</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   sum(sales)   </span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;   10032628.85</span></a></code></pre></div>
 </div>
 <div id="rows" class="section level3">
 <h3 class="hasAnchor">
 <a href="#rows" class="anchor"></a>Rows</h3>
-<p>As its name indicates, <code><a href="reference/rows-cols.html">rows()</a></code> adds a data grouping based on the variable or variables passed to the function. The aggregation is split by the variable(s) and each total is displayed by row.</p>
+<p>As its name indicates, <code><a href="reference/rows-cols.html">pivot_rows()</a></code> adds a data grouping based on the variable or variables passed to the function. The aggregation is split by the variable(s) and each total is displayed by row.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) </a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) </a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;              sum(sales)   </span></a>
 <a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Australia       630623.1  </span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Austria        202062.53  </span></a>
@@ -155,11 +155,11 @@
 <div id="columns" class="section level3">
 <h3 class="hasAnchor">
 <a href="#columns" class="anchor"></a>Columns</h3>
-<p>As its name indicates, <code><a href="reference/rows-cols.html">rows()</a></code> adds a data grouping based on the variable or variables passed to the function. The aggregation is split by the variable(s) and each total is displayed by column.</p>
+<p>As its name indicates, <code><a href="reference/rows-cols.html">pivot_rows()</a></code> adds a data grouping based on the variable or variables passed to the function. The aggregation is split by the variable(s) and each total is displayed by column.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales))</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;              Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        </span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Australia               14378.09    43971.43                         572273.58     630623.1  </span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Austria                                                   28550.59   173511.94    202062.53  </span></a>
@@ -185,12 +185,12 @@
 <div id="pivot" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pivot" class="anchor"></a>Pivot</h3>
-<p>Instead of “manually” switching the content of <code><a href="reference/rows-cols.html">rows()</a></code> and <code><a href="reference/rows-cols.html">columns()</a></code>, specially during data exploration, simply pipe the code to the <code><a href="reference/pivot.html">pivot()</a></code> command.</p>
+<p>Instead of “manually” switching the content of <code><a href="reference/rows-cols.html">pivot_rows()</a></code> and <code><a href="reference/rows-cols.html">pivot_columns()</a></code>, specially during data exploration, simply pipe the code to the <code><a href="reference/pivot_flip.html">pivot_flip()</a></code> command.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/pivot.html">pivot</a></span>()</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/pivot_flip.html">pivot_flip</a></span>()</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;             Australia  Austria    Belgium    Canada     Denmark    Finland    France      Germany    Ireland   Italy      Japan      Norway    Philippines  Singapore  Spain       Sweden     Switzerland  UK         USA         Total        </span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; Cancelled                                                                                                                                                                50010.65   48710.92                50408.25    45357.66    194487.48  </span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; Disputed     14378.09                                    26012.87                                                                                                         31821.9                                                    72212.86  </span></a>
@@ -203,12 +203,12 @@
 <div id="focus" class="section level3">
 <h3 class="hasAnchor">
 <a href="#focus" class="anchor"></a>Focus</h3>
-<p>To limit the pivot table to display only a subset of the pivot table, use <code><a href="reference/rows-cols.html">focus()</a></code></p>
+<p>To limit the pivot table to display only a subset of the pivot table, use <code>focus()</code></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="dt">total_sales =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">focus</a></span>(</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="dt">total_sales =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_focus</a></span>(</a>
 <a class="sourceLine" id="cb6-6" data-line-number="6">    country <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Japan"</span>, <span class="st">"USA"</span>, <span class="st">"UK"</span>), </a>
 <a class="sourceLine" id="cb6-7" data-line-number="7">    status <span class="op">==</span><span class="st"> "Shipped"</span>,</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">    total_sales <span class="op">&gt;</span><span class="st"> </span><span class="dv">200000</span></a>
@@ -221,28 +221,28 @@
 <div id="drill" class="section level3">
 <h3 class="hasAnchor">
 <a href="#drill" class="anchor"></a>Drill</h3>
-<p>Another powerful thing of pivot tables is the ability to drill down into the data. To do this in <code>pivotable</code>, you will need to define a hierarchy dimension using the <code><a href="reference/dim_hierarchy.html">dim_hierarchy()</a></code> command. That command is made to be called within one of the dimension definition functions, such as <code><a href="reference/rows-cols.html">rows()</a></code> or <code><a href="reference/rows-cols.html">columns()</a></code>. The order of the hierarchy is defined by the order in which the variables is passed to the function.</p>
+<p>Another powerful thing of pivot tables is the ability to drill down into the data. To do this in <code>pivotable</code>, you will need to define a hierarchy dimension using the <code><a href="reference/dim_hierarchy.html">dim_hierarchy()</a></code> command. That command is made to be called within one of the dimension definition functions, such as <code><a href="reference/rows-cols.html">pivot_rows()</a></code> or <code><a href="reference/rows-cols.html">pivot_columns()</a></code>. The order of the hierarchy is defined by the order in which the variables is passed to the function.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(<span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy.html">dim_hierarchy</a></span>(</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(<span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy.html">dim_hierarchy</a></span>(</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">    <span class="dt">year =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(orderdate, <span class="st">"%Y"</span>)),</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4">    <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(orderdate, <span class="st">"%m"</span>))</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">    )</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales))</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales))</a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;        sum(sales)   </span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; 2003    3516979.54  </span></a>
 <a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; 2004     4724162.6  </span></a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; 2005    1791486.71  </span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; Total  10032628.85</span></a></code></pre></div>
-<p>The <code><a href="reference/drill.html">drill()</a></code> command will add the next level of the hierarchy dimension to the pivot table.</p>
+<p>The <code><a href="reference/pivot_drill.html">pivot_drill()</a></code> command will add the next level of the hierarchy dimension to the pivot table.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(<span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy.html">dim_hierarchy</a></span>(</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(<span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy.html">dim_hierarchy</a></span>(</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="dt">year =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(orderdate, <span class="st">"%Y"</span>)),</a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">    <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(orderdate, <span class="st">"%m"</span>))</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5">    )</a>
 <a class="sourceLine" id="cb8-6" data-line-number="6">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="reference/drill.html">drill</a></span>(order_date)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="reference/pivot_drill.html">pivot_drill</a></span>(order_date)</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;               sum(sales)   </span></a>
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; 2003   1         129753.6  </span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;        2        140836.19  </span></a>
@@ -279,9 +279,9 @@
 <a class="sourceLine" id="cb8-42" data-line-number="42"><span class="co">#&gt; Total         10032628.85</span></a></code></pre></div>
 <p>A helper function called <code><a href="reference/dim_hierarchy_mqy.html">dim_hierarchy_mqy()</a></code> creates a three level date hierarchy: year, quarter and month. The function will create the formulas to calculate each level, but those formulas will not be evaluated until the drilling into the level. The formulas are generic enough to work on database back-ends.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(<span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy_mqy.html">dim_hierarchy_mqy</a></span>(orderdate)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/drill.html">drill</a></span>(order_date)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(<span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy_mqy.html">dim_hierarchy_mqy</a></span>(orderdate)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_drill.html">pivot_drill</a></span>(order_date)</a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;               sum(sales)   </span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 2003   1        445094.69  </span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt;        2        562365.22  </span></a>
@@ -303,9 +303,9 @@
 <a href="#convert-to-tibble" class="anchor"></a>Convert to tibble</h3>
 <p>The <code><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble()</a></code> function is supported to convert the resulting pivot table into a rectangular <code><a href="https://dplyr.tidyverse.org/reference/reexports.html">tibble()</a></code></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">as_tibble</a></span>()</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; # A tibble: 19 x 7</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;    row_name    Cancelled Disputed `In Process` `On Hold` Resolved  Shipped</span></a>
@@ -336,7 +336,7 @@
 <a href="#define-dimensions-and-measures" class="anchor"></a>Define dimensions and measures</h2>
 <p>With <code>pivotable</code>, it is possible to pre-define a set of dimensions and measures that can then be easily accesses and re-used by pivot tables. The idea is to provide a way to centralize data definitions, which creates a consistent reporting.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">orders &lt;-<span class="st"> </span>retail_orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/dimensions.html">dimensions</a></span>(</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/prep_dimensions.html">prep_dimensions</a></span>(</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="dt">order_date =</span> <span class="kw"><a href="reference/dim_hierarchy.html">dim_hierarchy</a></span>(</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4">      <span class="dt">year =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(orderdate, <span class="st">"%Y"</span>)),</a>
 <a class="sourceLine" id="cb11-5" data-line-number="5">      <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/format.html">format</a></span>(orderdate, <span class="st">"%m"</span>))</a>
@@ -344,16 +344,16 @@
 <a class="sourceLine" id="cb11-7" data-line-number="7">    status, </a>
 <a class="sourceLine" id="cb11-8" data-line-number="8">    country</a>
 <a class="sourceLine" id="cb11-9" data-line-number="9">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="reference/measures.html">measures</a></span>(</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="reference/prep_measures.html">prep_measures</a></span>(</a>
 <a class="sourceLine" id="cb11-11" data-line-number="11">    <span class="dt">orders_qty =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/n.html">n</a></span>(), </a>
 <a class="sourceLine" id="cb11-12" data-line-number="12">    <span class="dt">order_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales),</a>
 <a class="sourceLine" id="cb11-13" data-line-number="13">    <span class="dt">sales_qty =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), <span class="dv">1</span>, <span class="dv">0</span>)),</a>
 <a class="sourceLine" id="cb11-14" data-line-number="14">    <span class="dt">sales_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), sales, <span class="dv">0</span>))</a>
 <a class="sourceLine" id="cb11-15" data-line-number="15">    )</a></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(sales_total)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(sales_total)</a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;             2003        2004        2005        Total       </span></a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; Cancelled            0           0                       0  </span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; Disputed                                     0           0  </span></a>
@@ -363,10 +363,10 @@
 <a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; Shipped     3439718.03  4528047.22  1323735.83  9291501.08  </span></a>
 <a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; Total       3439718.03  4528047.22  1468465.79  9436231.04</span></a></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(sales_total) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/drill.html">drill</a></span>(order_date)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(sales_total) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="reference/pivot_drill.html">pivot_drill</a></span>(order_date)</a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;             2003                                                                                                                                          2004                                                                                                                                             2005                                                               Total       </span></a>
 <a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;             1         2          3         4          5          6          7          8         9          10         11          12         Total       1          2          3          4          5          6          7          8          9          10         11          12         Total       1          2          3          4          5          Total                   </span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; Cancelled                                                                                                           0                                  0                                                      0          0                                                                              0                                                                              0  </span></a>
@@ -389,9 +389,9 @@
 <a class="sourceLine" id="cb14-6" data-line-number="6">tbl_sales &lt;-<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/copy_to.html">copy_to</a></span>(con, retail_orders)</a>
 <a class="sourceLine" id="cb14-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb14-8" data-line-number="8">tbl_sales <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(country) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(country) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt;              Cancelled  Disputed  In Process  On Hold    Resolved   Shipped     Total        </span></a>
 <a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; Australia               14378.09    43971.43                         572273.58     630623.1  </span></a>
 <a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; Austria                                                   28550.59   173511.94    202062.53  </span></a>
@@ -416,21 +416,21 @@
 <div id="measures-and-dimensions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#measures-and-dimensions" class="anchor"></a>Measures and dimensions</h3>
-<p>It is also possible create a data definition against a database connection. The <code><a href="reference/dimensions.html">dimensions()</a></code> and <code><a href="reference/measures.html">measures()</a></code> calculations will not be send to the database until used in the pivot table.</p>
+<p>It is also possible create a data definition against a database connection. The <code><a href="reference/prep_dimensions.html">prep_dimensions()</a></code> and <code><a href="reference/prep_measures.html">prep_measures()</a></code> calculations will not be send to the database until used in the pivot table.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">orders_db &lt;-<span class="st"> </span>tbl_sales <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/dimensions.html">dimensions</a></span>(</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/prep_dimensions.html">prep_dimensions</a></span>(</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">    status, </a>
 <a class="sourceLine" id="cb15-4" data-line-number="4">    country</a>
 <a class="sourceLine" id="cb15-5" data-line-number="5">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/measures.html">measures</a></span>(</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="reference/prep_measures.html">prep_measures</a></span>(</a>
 <a class="sourceLine" id="cb15-7" data-line-number="7">    <span class="dt">orders_qty =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/n.html">n</a></span>(), </a>
 <a class="sourceLine" id="cb15-8" data-line-number="8">    <span class="dt">order_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb15-9" data-line-number="9">    <span class="dt">sales_qty =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), <span class="dv">1</span>, <span class="dv">0</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb15-10" data-line-number="10">    <span class="dt">sales_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), sales, <span class="dv">0</span>), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb15-11" data-line-number="11">    )</a></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">orders_db <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">columns</a></span>(status) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(sales_total)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(status) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(sales_total)</a>
 <a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt;   Cancelled  Disputed  In Process  On Hold  Resolved  Shipped     Total       </span></a>
 <a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt;           0         0   144729.96        0         0  9291501.08  9436231.04</span></a></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/DBI/man/dbDisconnect.html">dbDisconnect</a></span>(con)</a></code></pre></div>
@@ -441,8 +441,8 @@
 <a href="#pivottabler" class="anchor"></a>pivottabler</h2>
 <p><code>pivotable</code> uses <code>pivottabler</code> to print the pivot table into the R console. The <code><a href="reference/to_pivottabler.html">to_pivottabler()</a></code> returns the actual <code>pivottabler</code> object. This allows you to further customize the pivot table using that package’s API.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">pt &lt;-<span class="st"> </span>orders <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">rows</a></span>(order_date) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/values.html">values</a></span>(orders_qty) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(order_date) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(orders_qty) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/to_pivottabler.html">to_pivottabler</a></span>()</a>
 <a class="sourceLine" id="cb18-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb18-6" data-line-number="6">pt<span class="op">$</span><span class="kw">asMatrix</span>(<span class="dt">repeatHeaders =</span> <span class="ot">TRUE</span>, <span class="dt">includeHeaders =</span> <span class="ot">TRUE</span>)</a>

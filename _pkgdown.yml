@@ -3,15 +3,15 @@ destination: docs
 reference:
   - title: Pivot table
     contents:
-    - rows
-    - columns
-    - values
-    - drill
-    - pivot
+    - pivot_rows
+    - pivot_columns
+    - pivot_values
+    - pivot_drill
+    - pivot_flip
   - title: Pivot design
     contents:
-    - dimensions
-    - measures
+    - prep_dimensions
+    - prep_measures
     - dim_hierarchy
     - dim_hierarchy_mqy
   - title: Pivot table output

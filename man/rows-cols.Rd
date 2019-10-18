@@ -2,16 +2,16 @@
 % Please edit documentation in R/pivot_verbs.R
 \name{rows-cols}
 \alias{rows-cols}
-\alias{rows}
-\alias{columns}
-\alias{focus}
+\alias{pivot_rows}
+\alias{pivot_columns}
+\alias{pivot_focus}
 \title{Manipulate pivot tables}
 \usage{
-rows(.data, ...)
+pivot_rows(.data, ...)
 
-columns(.data, ...)
+pivot_columns(.data, ...)
 
-focus(.data, ...)
+pivot_focus(.data, ...)
 }
 \arguments{
 \item{.data}{A data.frame or a pivot_prep object}
@@ -24,10 +24,10 @@ Manipulate pivot tables
 \examples{
 
 retail_orders \%>\%
-  rows(status) \%>\%
-  columns(country) \%>\%
-  values(total_sales = sum(sales)) \%>\%
-  focus(
+  pivot_rows(status) \%>\%
+  pivot_columns(country) \%>\%
+  pivot_values(total_sales = sum(sales)) \%>\%
+  pivot_focus(
     country \%in\% c("Japan", "USA", "UK"),
     status == "Shipped",
     total_sales > 200000

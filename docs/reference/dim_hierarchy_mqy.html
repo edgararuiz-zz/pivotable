@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pivotable</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Builds a date hierarchy dimension</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/drill.R'><code>R/drill.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot_drill.R'><code>R/pivot_drill.R</code></a></small>
     <div class="hidden name"><code>dim_hierarchy_mqy.Rd</code></div>
     </div>
 
@@ -133,9 +133,9 @@ year, quarter and month on the fly.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'>dim_hierarchy_mqy</span>(<span class='no'>orderdate</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='values.html'>values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='drill.html'>drill</a></span>(<span class='no'>order_date</span>)</div><div class='output co'>#&gt;   2003                   2004                   2005           Total  
+  <span class='fu'><a href='rows-cols.html'>pivot_columns</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'>dim_hierarchy_mqy</span>(<span class='no'>orderdate</span>)) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_drill.html'>pivot_drill</a></span>(<span class='no'>order_date</span>)</div><div class='output co'>#&gt;   2003                   2004                   2005           Total  
 #&gt;   1   2   3   4   Total  1   2   3   4   Total  1   2   Total         
 #&gt;   14  19  19  52    104  25  28  34  57    144  36  23     59    307  </div><div class='input'>
 </div></pre>

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pivotable</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9001</span>
       </span>
     </div>
 
@@ -133,9 +133,9 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='no'>pt</span> <span class='kw'>&lt;-</span> <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>rows</a></span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>columns</a></span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='values.html'>values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='no'>status</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>pivot_columns</a></span>(<span class='no'>country</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'>n</span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'>to_pivottabler</span>()
 
 <span class='no'>pt</span>$<span class='fu'>asMatrix</span>()</div><div class='output co'>#&gt;      [,1]         [,2]        [,3]      [,4]      [,5]     [,6]      [,7]     
