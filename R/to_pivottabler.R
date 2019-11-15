@@ -46,8 +46,8 @@ to_pivottabler.pivot_table <- function(x, remove_totals = FALSE) {
   if (!is.null(val_names)) {
     for (i in seq_along(val_names)) {
       pt$defineCalculation(
-        calculationName = val_names,
-        summariseExpression = paste0("sum(`", val_names, "`)")
+        calculationName = val_names[i],
+        summariseExpression = paste0("sum(`", val_names[i], "`)")
       )
     }
   }

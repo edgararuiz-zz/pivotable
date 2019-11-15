@@ -74,6 +74,24 @@ retail_orders %>%
 #>   10032628.85
 ```
 
+Multiple aggregations are supported by `pivot_values()`
+
+``` r
+retail_orders %>%
+  pivot_values(sum(sales), n())
+#>   sum(sales)   n()  
+#>   10032628.85  307
+```
+
+The aggregations can also be named inside `pivot_values()`
+
+``` r
+retail_orders %>%
+  pivot_values(total_sales = sum(sales), no_sales = n())
+#>   total_sales  no_sales  
+#>   10032628.85       307
+```
+
 ### Rows
 
 As its name indicates, `pivot_rows()` adds a data grouping based on the
