@@ -1,11 +1,11 @@
 context("drill")
 
 test_that("drill", {
-  t <- retail_orders %>%
+  pv <- retail_orders %>%
     pivot_columns(country) %>%
     pivot_rows(status) %>%
     pivot_values(n())
-  expect_is(pivot_drill(t), "pivot_table")
+  expect_is(pivot_drill(pv), "pivot_table")
 })
 
 test_that("mqy dimension", {

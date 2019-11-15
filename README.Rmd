@@ -129,6 +129,16 @@ retail_orders %>%
   pivot_flip()
 ```
 
+`pivotable` also includes support for the `t()` method from base R. It will perform the exact same operation as `pivot_flip()`
+
+```{r}
+retail_orders %>%
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(sum(sales)) %>%
+  t()
+```
+
 ### Focus
 
 To limit the pivot table to display only a subset of the pivot table, use `focus()`

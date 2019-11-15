@@ -26,3 +26,15 @@ pivot_flip.pivot_table <- function(.data) {
 pivot_flip.pivot_prep <- function(.data, ...) {
   pivot_flip(.data$.pivot_table)
 }
+
+
+#' @export
+t.pivot_table <- function(x) {
+  pivot_flip(x)
+}
+
+#' @export
+t.pivot_prep <- function(x) {
+  pivot_flip(x$.pivot_table)
+}
+

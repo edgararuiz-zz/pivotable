@@ -163,6 +163,25 @@ retail_orders %>%
 #> Total        630623.1  202062.53  108412.62  224078.56  245637.15  329581.91  1110916.52  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1215686.92  210014.21    117713.56  478880.46  3627982.83  10032628.85
 ```
 
+`pivotable` also includes support for the `t()` method from base R. It
+will perform the exact same operation as `pivot_flip()`
+
+``` r
+retail_orders %>%
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(sum(sales)) %>%
+  t()
+#>             Australia  Austria    Belgium    Canada     Denmark    Finland    France      Germany    Ireland   Italy      Japan      Norway    Philippines  Singapore  Spain       Sweden     Switzerland  UK         USA         Total        
+#> Cancelled                                                                                                                                                                50010.65   48710.92                50408.25    45357.66    194487.48  
+#> Disputed     14378.09                                    26012.87                                                                                                         31821.9                                                    72212.86  
+#> In Process   43971.43               8411.95                                     43784.69                                                                                 35133.34                                       13428.55    144729.96  
+#> On Hold                                                                                                                                                                             26260.21                           152718.98    178979.19  
+#> Resolved                28550.59                         24078.61                                                                                                        53815.72                                       44273.36    150718.28  
+#> Shipped     572273.58  173511.94  100000.67  224078.56  195545.67  329581.91  1067131.83  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1044905.31  135043.08    117713.56  428472.21  3372204.28   9291501.08  
+#> Total        630623.1  202062.53  108412.62  224078.56  245637.15  329581.91  1110916.52  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1215686.92  210014.21    117713.56  478880.46  3627982.83  10032628.85
+```
+
 ### Focus
 
 To limit the pivot table to display only a subset of the pivot table,
