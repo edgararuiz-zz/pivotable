@@ -51,7 +51,6 @@ set_cat.pivot_prep <- function(.data, atr = "", ...) {
   .data
 }
 
-
 name_quos <- function(...) {
   vars <- as.list(enquos(...))
   nm_n <- names(vars)
