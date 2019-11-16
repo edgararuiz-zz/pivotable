@@ -1,7 +1,7 @@
 context("set_cat")
 
 test_that("set_cat", {
-  expect_is(set_cat(retail_orders, "measure", status), "pivot_table")
+  expect_is(set_cat(as.data.frame(retail_orders), "measure", status), "pivot_table")
   expect_is(set_cat(dplyr::as_tibble(retail_orders), "measure", status), "pivot_table")
 })
 
