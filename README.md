@@ -22,7 +22,7 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
       - [Rows](#rows)
       - [Columns](#columns)
       - [Pivot](#pivot)
-      - [Focus](#focus)
+      - [Filter](#filter)
       - [Drill](#drill)
       - [Totals](#totals)
       - [Convert to tibble](#convert-to-tibble)
@@ -201,10 +201,10 @@ retail_orders %>%
 #> Total        630623.1  202062.53  108412.62  224078.56  245637.15  329581.91  1110916.52  220472.09  57756.43  374674.31  188167.81  307463.7     94015.73  288488.41  1215686.92  210014.21    117713.56  478880.46  3627982.83  10032628.85
 ```
 
-### Focus
+### Filter
 
 To limit the pivot table to display only a subset of the pivot table,
-use `focus()`
+use `pivot_focus()`
 
 ``` r
 retail_orders %>%
@@ -212,6 +212,24 @@ retail_orders %>%
   pivot_columns(status) %>%
   pivot_values(total_sales = sum(sales)) %>%
   pivot_focus(
+    country %in% c("Japan", "USA", "UK"), 
+    status == "Shipped",
+    total_sales > 200000
+    )
+#>        Shipped     Total       
+#> UK      428472.21   428472.21  
+#> USA    3372204.28  3372204.28  
+#> Total  3800676.49  3800676.49
+```
+
+`pivotable` also supports `dplyr`’s `filter()` command.
+
+``` r
+retail_orders %>%
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(total_sales = sum(sales)) %>%
+  filter(
     country %in% c("Japan", "USA", "UK"), 
     status == "Shipped",
     total_sales > 200000

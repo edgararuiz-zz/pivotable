@@ -58,7 +58,7 @@ toc <- function() {
     - [Rows](#rows)
     - [Columns](#columns)
     - [Pivot](#pivot)
-    - [Focus](#focus)
+    - [Filter](#filter)
     - [Drill](#drill)
     - [Totals](#totals)
     - [Convert to tibble](#convert-to-tibble)
@@ -155,9 +155,9 @@ retail_orders %>%
   t()
 ```
 
-### Focus
+### Filter
 
-To limit the pivot table to display only a subset of the pivot table, use `focus()`
+To limit the pivot table to display only a subset of the pivot table, use `pivot_focus()`
 
 ```{r}
 retail_orders %>%
@@ -165,6 +165,20 @@ retail_orders %>%
   pivot_columns(status) %>%
   pivot_values(total_sales = sum(sales)) %>%
   pivot_focus(
+    country %in% c("Japan", "USA", "UK"), 
+    status == "Shipped",
+    total_sales > 200000
+    )
+```
+
+`pivotable` also supports `dplyr`'s `filter()` command. 
+
+```{r}
+retail_orders %>%
+  pivot_rows(country) %>%
+  pivot_columns(status) %>%
+  pivot_values(total_sales = sum(sales)) %>%
+  filter(
     country %in% c("Japan", "USA", "UK"), 
     status == "Shipped",
     total_sales > 200000

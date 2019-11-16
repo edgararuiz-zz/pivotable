@@ -25,6 +25,15 @@ test_that("focus", {
     )
 })
 
+context("filter")
+
+test_that("filter", {
+  expect_is(
+    filter(pv, country == "Australia"),
+    "pivot_table"
+  )
+})
+
 context("totals")
 
 test_that("totals", {
