@@ -25,11 +25,13 @@ test_that("Pivot preparation works", {
 
 test_that("Pivot preparation works", {
   sales_pivot <- retail_orders %>%
-    prep_dimensions(order_date = dim_hierarchy(
-      year = as.integer(format(orderdate, "%Y")),
-      month = as.integer(format(orderdate, "%m"))
+    prep_dimensions(
+      order_date = dim_hierarchy(
+        year = as.integer(format(orderdate, "%Y")),
+        month = as.integer(format(orderdate, "%m"))
       ),
-      status) %>%
+      status
+    ) %>%
     prep_measures(no_orders = dplyr::n(), total_orders = sum(sales)) %>%
     pivot_rows(order_date) %>%
     pivot_columns(status) %>%
@@ -38,7 +40,6 @@ test_that("Pivot preparation works", {
   expect_output(print(pivot_drill(sales_pivot, order_date)))
   expect_output(print(pivot_flip(sales_pivot)))
   expect_output(print(
-    pivot_totals(sales_pivot,include_column_totals = FALSE, include_row_totals = FALSE)
-    ))
+    pivot_totals(sales_pivot, include_column_totals = FALSE, include_row_totals = FALSE)
+  ))
 })
-

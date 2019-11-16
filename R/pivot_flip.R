@@ -37,4 +37,3 @@ t.pivot_table <- function(x) {
 t.pivot_prep <- function(x) {
   pivot_flip(x$.pivot_table)
 }
-

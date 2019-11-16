@@ -10,7 +10,6 @@
 #'     month = as.integer(format(orderdate, "%m"))
 #'   )) %>%
 #'   pivot_values(sum(sales))
-#'
 #' @export
 dim_hierarchy <- function(...) {
   structure(
@@ -34,16 +33,17 @@ dim_hierarchy <- function(...) {
 #'   pivot_columns(order_date = dim_hierarchy_mqy(orderdate)) %>%
 #'   pivot_values(n()) %>%
 #'   pivot_drill(order_date)
-#'
 #' @export
 dim_hierarchy_mqy <- function(x) {
   x <- enquo(x)
   dim_hierarchy(
-    year = as.integer(format(!! x, "%Y")),
-    quarter = ifelse(as.integer(format(!! x, "%m")) <= 3, 1,
-                     ifelse(as.integer(format(!! x, "%m")) <= 6, 2,
-                            ifelse(as.integer(format(!! x, "%m")) <= 9, 3, 4))),
-    month = as.integer(format(!! x, "%m"))
+    year = as.integer(format(!!x, "%Y")),
+    quarter = ifelse(as.integer(format(!!x, "%m")) <= 3, 1,
+      ifelse(as.integer(format(!!x, "%m")) <= 6, 2,
+        ifelse(as.integer(format(!!x, "%m")) <= 9, 3, 4)
+      )
+    ),
+    month = as.integer(format(!!x, "%m"))
   )
 }
 
@@ -61,7 +61,6 @@ dim_hierarchy_mqy <- function(x) {
 #'   )) %>%
 #'   pivot_values(sum(sales)) %>%
 #'   pivot_drill(order_date)
-#'
 #' @export
 pivot_drill <- function(.data, ...) {
   set_pivot_drill(.data, ...)

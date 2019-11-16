@@ -1,7 +1,7 @@
 calculate_pivot <- function(x) {
-  gtl <-  calculate_aggregate(x)
-  if(!is.null(x$focus)) {
-    gtl <- filter(gtl, !!! setNames(x$focus, NULL))
+  gtl <- calculate_aggregate(x)
+  if (!is.null(x$focus)) {
+    gtl <- filter(gtl, !!!setNames(x$focus, NULL))
   }
   gtl
 }

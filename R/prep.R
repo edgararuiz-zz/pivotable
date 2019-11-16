@@ -15,7 +15,6 @@
 #' sales_pivot %>%
 #'   pivot_columns(order_date) %>%
 #'   pivot_values(total_orders)
-#'
 #' @export
 prep_dimensions <- function(x, ...) {
   pivot_prep(
@@ -46,7 +45,6 @@ prep_dimensions <- function(x, ...) {
 #' sales_pivot %>%
 #'   pivot_columns(order_date) %>%
 #'   pivot_values(total_orders)
-#'
 #' @export
 prep_measures <- function(x, ...) {
   pivot_prep(

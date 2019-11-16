@@ -12,7 +12,7 @@ test_that("pivot_prep", {
   dm <- prep_measures(
     total_sales = sum(sales),
     prep_dimensions(retail_orders, status)
-    )
+  )
   pv <- dm %>%
     pivot_columns(status) %>%
     pivot_values(total_sales)

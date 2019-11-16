@@ -13,7 +13,7 @@ test_that("mqy dimension", {
   expect_is(
     dim_hierarchy_mqy(as.Date("2012-01-01")),
     "dim_hierarchy"
-    )
+  )
 })
 
 context("focus")
@@ -22,7 +22,7 @@ test_that("focus", {
   expect_is(
     pivot_focus(pv, country == "Australia"),
     "pivot_table"
-    )
+  )
 })
 
 context("filter")
@@ -42,7 +42,7 @@ test_that("totals", {
       pv,
       include_column_totals = FALSE,
       include_row_totals = FALSE
-      ),
+    ),
     "pivot_table"
   )
 })

@@ -17,7 +17,6 @@
 #'     status == "Shipped",
 #'     total_sales > 200000
 #'   )
-#'
 #' @export
 pivot_rows <- function(.data, ...) {
   set_cat(.data, "rows", ...)
@@ -45,7 +44,6 @@ pivot_focus <- function(.data, ...) {
 #' retail_orders %>%
 #'   pivot_rows(status) %>%
 #'   pivot_values(n())
-#'
 #' @export
 pivot_values <- function(.data, ...) {
   set_cat(.data, "values", ...)
@@ -63,16 +61,14 @@ pivot_values <- function(.data, ...) {
 #'   pivot_rows(status, country) %>%
 #'   pivot_values(n()) %>%
 #'   pivot_totals(include_row_totals = FALSE)
-#'
 #' @export
 pivot_totals <- function(.data,
                          include_column_totals = TRUE,
-                         include_row_totals = TRUE
-                         ) {
+                         include_row_totals = TRUE) {
   set_cat(
     .data,
     "totals",
-    include_column = !! include_column_totals,
-    include_row = !! include_row_totals
-    )
+    include_column = !!include_column_totals,
+    include_row = !!include_row_totals
+  )
 }
