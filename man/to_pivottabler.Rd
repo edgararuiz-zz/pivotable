@@ -4,12 +4,15 @@
 \alias{to_pivottabler}
 \title{Coerce to a pivottabler object}
 \usage{
-to_pivottabler(x, remove_totals = FALSE)
+to_pivottabler(x, include_column_totals = NULL,
+  include_row_totals = NULL)
 }
 \arguments{
 \item{x}{A pivot_prep or pivot_table object}
 
-\item{remove_totals}{Indicates if the totals are included in the pivot table}
+\item{include_column_totals}{Indicates if the column totals are included in the pivot table}
+
+\item{include_row_totals}{Indicates if the row totals are included in the pivot table}
 }
 \description{
 Coerce to a pivottabler object

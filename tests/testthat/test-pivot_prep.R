@@ -37,5 +37,8 @@ test_that("Pivot preparation works", {
 
   expect_output(print(pivot_drill(sales_pivot, order_date)))
   expect_output(print(pivot_flip(sales_pivot)))
+  expect_output(print(
+    pivot_totals(sales_pivot,include_column_totals = FALSE, include_row_totals = FALSE)
+    ))
 })
 

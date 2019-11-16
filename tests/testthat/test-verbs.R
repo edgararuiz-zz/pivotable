@@ -24,3 +24,16 @@ test_that("focus", {
     "pivot_table"
     )
 })
+
+context("totals")
+
+test_that("totals", {
+  expect_is(
+    pivot_totals(
+      pv,
+      include_column_totals = FALSE,
+      include_row_totals = FALSE
+      ),
+    "pivot_table"
+  )
+})

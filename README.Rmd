@@ -60,6 +60,7 @@ toc <- function() {
     - [Pivot](#pivot)
     - [Focus](#focus)
     - [Drill](#drill)
+    - [Totals](#totals)
     - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
@@ -204,6 +205,20 @@ retail_orders %>%
   pivot_rows(order_date = dim_hierarchy_mqy(orderdate)) %>%
   pivot_values(sum(sales)) %>%
   pivot_drill(order_date)
+```
+
+
+### Totals
+
+The display of the totals can be controlled using `pivot_totals()`.  It is possible to control the display of row and column totals individually.
+
+```{r}
+retail_orders %>%
+  pivot_rows(status, country) %>%
+  pivot_values(sum(sales)) %>%
+  pivot_totals(
+    include_row_totals = FALSE
+  )
 ```
 
 

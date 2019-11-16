@@ -24,6 +24,7 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
       - [Pivot](#pivot)
       - [Focus](#focus)
       - [Drill](#drill)
+      - [Totals](#totals)
       - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
   - [Database connections](#database-connections)
@@ -319,6 +320,59 @@ retail_orders %>%
 #>        2        719494.35  
 #>        Total   1791486.71  
 #> Total         10032628.85
+```
+
+### Totals
+
+The display of the totals can be controlled using `pivot_totals()`. It
+is possible to control the display of row and column totals
+individually.
+
+``` r
+retail_orders %>%
+  pivot_rows(status, country) %>%
+  pivot_values(sum(sales)) %>%
+  pivot_totals(
+    include_row_totals = FALSE
+  )
+#>                          sum(sales)  
+#> Cancelled   Spain          50010.65  
+#>             Sweden         48710.92  
+#>             UK             50408.25  
+#>             USA            45357.66  
+#> Disputed    Australia      14378.09  
+#>             Denmark        26012.87  
+#>             Spain           31821.9  
+#> In Process  Australia      43971.43  
+#>             Belgium         8411.95  
+#>             France         43784.69  
+#>             Spain          35133.34  
+#>             USA            13428.55  
+#> On Hold     Sweden         26260.21  
+#>             USA           152718.98  
+#> Resolved    Austria        28550.59  
+#>             Denmark        24078.61  
+#>             Spain          53815.72  
+#>             USA            44273.36  
+#> Shipped     Australia     572273.58  
+#>             Austria       173511.94  
+#>             Belgium       100000.67  
+#>             Canada        224078.56  
+#>             Denmark       195545.67  
+#>             Finland       329581.91  
+#>             France       1067131.83  
+#>             Germany       220472.09  
+#>             Ireland        57756.43  
+#>             Italy         374674.31  
+#>             Japan         188167.81  
+#>             Norway         307463.7  
+#>             Philippines    94015.73  
+#>             Singapore     288488.41  
+#>             Spain        1044905.31  
+#>             Sweden        135043.08  
+#>             Switzerland   117713.56  
+#>             UK            428472.21  
+#>             USA          3372204.28
 ```
 
 ### Convert to tibble

@@ -10,11 +10,11 @@ test_that("pivot_table", {
 
 test_that("pivot_prep", {
   dm <- prep_measures(
-    orders_qty = n(),
+    total_sales = sum(sales),
     prep_dimensions(retail_orders, status)
     )
   pv <- dm %>%
     pivot_columns(status) %>%
-    pivot_values(orders_qty)
+    pivot_values(total_sales)
   expect_is(to_pivottabler(pv), "PivotTable")
 })

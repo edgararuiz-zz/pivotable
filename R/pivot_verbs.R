@@ -50,3 +50,29 @@ pivot_focus <- function(.data, ...) {
 pivot_values <- function(.data, ...) {
   set_cat(.data, "values", ...)
 }
+
+#' Control if the totals will display when printed
+#'
+#' @param .data A data.frame or a pivot_prep object
+#' @param include_column_totals Indicates if the column totals are included in the pivot table
+#' @param include_row_totals Indicates if the row totals are included in the pivot table
+#'
+#' @examples
+#'
+#' retail_orders %>%
+#'   pivot_rows(status, country) %>%
+#'   pivot_values(n()) %>%
+#'   pivot_totals(include_row_totals = FALSE)
+#'
+#' @export
+pivot_totals <- function(.data,
+                         include_column_totals = TRUE,
+                         include_row_totals = TRUE
+                         ) {
+  set_cat(
+    .data,
+    "totals",
+    include_column = !! include_column_totals,
+    include_row = !! include_row_totals
+    )
+}
