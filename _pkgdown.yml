@@ -6,8 +6,10 @@ reference:
     - pivot_rows
     - pivot_columns
     - pivot_values
+    - pivot_default_values
     - pivot_drill
     - pivot_flip
+    - pivot_totals
   - title: Pivot design
     contents:
     - prep_dimensions

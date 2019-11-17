@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ordered list to create a  hierarchical dimension — dim_hierarchy • pivotable</title>
+<title>Set the default agregation for an R session — pivot_default_values • pivotable</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Ordered list to create a  hierarchical dimension — dim_hierarchy" />
-<meta property="og:description" content="Ordered list to create a  hierarchical dimension" />
+<meta property="og:title" content="Set the default agregation for an R session — pivot_default_values" />
+<meta property="og:description" content="Set the default agregation for an R session" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,44 +105,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Ordered list to create a  hierarchical dimension</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot-drill.R'><code>R/pivot-drill.R</code></a></small>
-    <div class="hidden name"><code>dim_hierarchy.Rd</code></div>
+    <h1>Set the default agregation for an R session</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot-default.R'><code>R/pivot-default.R</code></a></small>
+    <div class="hidden name"><code>pivot_default_values.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Ordered list to create a  hierarchical dimension</p>
+    <p>Set the default agregation for an R session</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dim_hierarchy</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pivot_default_values</span>(<span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Ordered set of measures names</p></td>
+      <td><p>Variables or calculation to aggregate by</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It records the named quotation variables into via the options() command, inside
+the "pivotable_default_values" option.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='fu'>pivot_default_values</span>(<span class='fu'>n</span>())
+
 <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'>dim_hierarchy</span>(
-    <span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%Y"</span>)),
-    <span class='kw'>month</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%m"</span>))
-  )) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>))</div><div class='output co'>#&gt;        sum(sales)   
-#&gt; 2003    3516979.54  
-#&gt; 2004     4724162.6  
-#&gt; 2005    1791486.71  
-#&gt; Total  10032628.85  </div></pre>
+  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='no'>status</span>)</div><div class='output co'>#&gt;             n()  
+#&gt; Cancelled     4  
+#&gt; Disputed      3  
+#&gt; In Process    6  
+#&gt; On Hold       4  
+#&gt; Resolved      4  
+#&gt; Shipped     286  
+#&gt; Total       307  </div><div class='input'>
+<span class='fu'>pivot_default_values</span>(<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>))
+
+<span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='no'>status</span>)</div><div class='output co'>#&gt;             sum(sales)   
+#&gt; Cancelled     194487.48  
+#&gt; Disputed       72212.86  
+#&gt; In Process    144729.96  
+#&gt; On Hold       178979.19  
+#&gt; Resolved      150718.28  
+#&gt; Shipped      9291501.08  
+#&gt; Total       10032628.85  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

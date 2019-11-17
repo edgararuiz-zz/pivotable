@@ -1,6 +1,6 @@
 Package: pivotable
 Title: Create pivot tables
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R:
     person("Edgar", "Ruiz", email = "edgar@rstudio.com", role = c("aut", "cre"))
 Description: Design data models for pivot tables, and easily create pivot tables on the fly.
@@ -13,8 +13,8 @@ Imports:
   magrittr,
   rlang
 Suggests: 
-    testthat (>= 2.1.0),
-    covr
+  testthat (>= 2.1.0),
+  covr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

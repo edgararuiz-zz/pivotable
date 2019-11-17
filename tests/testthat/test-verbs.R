@@ -46,3 +46,17 @@ test_that("totals", {
     "pivot_table"
   )
 })
+
+context("default")
+
+test_that("default", {
+  pivot_default_values(n())
+  expect_is(
+    pivot_columns(
+      retail_orders,
+      country
+      ),
+    "pivot_table"
+  )
+})
+
