@@ -1,6 +1,7 @@
 pivot_table <- function(rows = NULL, columns = NULL,
                         values = getOption("pivotable_default_values"),
-                        src = NULL) {
+                        src = NULL
+                        ) {
   structure(
     list(
       rows = rows,

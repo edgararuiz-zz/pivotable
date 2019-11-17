@@ -35,7 +35,10 @@ to_pivottabler.pivot_prep <- function(x,
 to_pivottabler.pivot_table <- function(x,
                                        include_column_totals = NULL,
                                        include_row_totals = NULL) {
-  total_cols <- TRUE
+  total_cols <- FALSE
+  if (!is.null(getOption("pivotable_include_columns"))) {
+    total_cols <- getOption("pivotable_include_rows")
+  }
   if (!is.null(x$totals$include_column)) {
     total_cols <- get_expr(x$totals$include_column)
   }
@@ -43,7 +46,10 @@ to_pivottabler.pivot_table <- function(x,
     total_cols <- include_column_totals
   }
 
-  total_rows <- TRUE
+  total_rows <- FALSE
+  if (!is.null(getOption("pivotable_include_rows"))) {
+    total_rows <- getOption("pivotable_include_rows")
+  }
   if (!is.null(x$totals$include_row)) {
     total_rows <- get_expr(x$totals$include_row)
   }

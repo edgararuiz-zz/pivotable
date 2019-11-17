@@ -230,7 +230,7 @@ retail_orders %>%
 
 ### Totals
 
-The display of the totals can be controlled using `pivot_totals()`.  It is possible to control the display of row and column totals individually.
+The display of the totals can be controlled using `pivot_totals()`.  It is possible to control the display of row and column totals individually.  **Currently, sub-totals and grand totals are `sum()` aggregates, so if the actual calculations are not record counts, or another `sum()` consider leaving them off.  For example, if the calculation is a `mean()`, then the sub-total and grand total will be the aggregate `sum()` total of the averages, which would be incorrect**.
 
 ```{r}
 retail_orders %>%
@@ -239,6 +239,23 @@ retail_orders %>%
   pivot_totals(
     include_row_totals = FALSE
   )
+```
+
+A default can be set to control if the column or row totals are displayed.  The default is set to not show.
+
+```{r}
+pivot_default_totals(
+  include_column_totals = TRUE, 
+  include_row_totals = TRUE
+  )
+
+retail_orders %>%
+  pivot_rows(status, country) %>%
+  pivot_values(sum(sales))
+```
+
+```{r}
+pivot_default_totals(FALSE, FALSE)
 ```
 
 

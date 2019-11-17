@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ordered list to create a  hierarchical dimension — dim_hierarchy • pivotable</title>
+<title>Set a default to display totals for an R session — pivot_default_totals • pivotable</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Ordered list to create a  hierarchical dimension — dim_hierarchy" />
-<meta property="og:description" content="Ordered list to create a  hierarchical dimension" />
+<meta property="og:title" content="Set a default to display totals for an R session — pivot_default_totals" />
+<meta property="og:description" content="Set a default to display totals for an R session" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,38 +105,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Ordered list to create a  hierarchical dimension</h1>
-    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot-drill.R'><code>R/pivot-drill.R</code></a></small>
-    <div class="hidden name"><code>dim_hierarchy.Rd</code></div>
+    <h1>Set a default to display totals for an R session</h1>
+    <small class="dont-index">Source: <a href='https://github.com/edgararuiz/pivotable/blob/master/R/pivot-default.R'><code>R/pivot-default.R</code></a></small>
+    <div class="hidden name"><code>pivot_default_totals.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Ordered list to create a  hierarchical dimension</p>
+    <p>Set a default to display totals for an R session</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dim_hierarchy</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pivot_default_totals</span>(<span class='kw'>include_column_totals</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>include_row_totals</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Ordered set of measures names</p></td>
+      <th>include_column_totals</th>
+      <td><p>Indicates if the column totals are included in the pivot table</p></td>
+    </tr>
+    <tr>
+      <th>include_row_totals</th>
+      <td><p>Indicates if the row totals are included in the pivot table</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='fu'>pivot_default_totals</span>(<span class='fl'>TRUE</span>, <span class='fl'>TRUE</span>)
+
 <span class='no'>retail_orders</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='kw'>order_date</span> <span class='kw'>=</span> <span class='fu'>dim_hierarchy</span>(
-    <span class='kw'>year</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%Y"</span>)),
-    <span class='kw'>month</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/format.html'>format</a></span>(<span class='no'>orderdate</span>, <span class='st'>"%m"</span>))
-  )) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>sales</span>))</div><div class='output co'>#&gt;       sum(sales)  
-#&gt; 2003  3516979.54  
-#&gt; 2004   4724162.6  
-#&gt; 2005  1791486.71  </div></pre>
+  <span class='fu'><a href='rows-cols.html'>pivot_rows</a></span>(<span class='no'>status</span>, <span class='no'>country</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pivot_values.html'>pivot_values</a></span>(<span class='fu'>n</span>())</div><div class='output co'>#&gt;                          n()  
+#&gt; Cancelled   Spain          1  
+#&gt;             Sweden         1  
+#&gt;             UK             1  
+#&gt;             USA            1  
+#&gt;             Total          4  
+#&gt; Disputed    Australia      1  
+#&gt;             Denmark        1  
+#&gt;             Spain          1  
+#&gt;             Total          3  
+#&gt; In Process  Australia      1  
+#&gt;             Belgium        1  
+#&gt;             France         1  
+#&gt;             Spain          1  
+#&gt;             USA            2  
+#&gt;             Total          6  
+#&gt; On Hold     Sweden         1  
+#&gt;             USA            3  
+#&gt;             Total          4  
+#&gt; Resolved    Austria        1  
+#&gt;             Denmark        1  
+#&gt;             Spain          1  
+#&gt;             USA            1  
+#&gt;             Total          4  
+#&gt; Shipped     Australia     17  
+#&gt;             Austria        6  
+#&gt;             Belgium        6  
+#&gt;             Canada         7  
+#&gt;             Denmark        5  
+#&gt;             Finland        9  
+#&gt;             France        36  
+#&gt;             Germany        7  
+#&gt;             Ireland        2  
+#&gt;             Italy          8  
+#&gt;             Japan          6  
+#&gt;             Norway         9  
+#&gt;             Philippines    3  
+#&gt;             Singapore      9  
+#&gt;             Spain         32  
+#&gt;             Sweden         5  
+#&gt;             Switzerland    2  
+#&gt;             UK            12  
+#&gt;             USA          105  
+#&gt;             Total        286  
+#&gt; Total                    307  </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
