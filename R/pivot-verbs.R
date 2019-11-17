@@ -11,12 +11,8 @@
 #' retail_orders %>%
 #'   pivot_rows(status) %>%
 #'   pivot_columns(country) %>%
-#'   pivot_values(total_sales = sum(sales)) %>%
-#'   pivot_focus(
-#'     country %in% c("Japan", "USA", "UK"),
-#'     status == "Shipped",
-#'     total_sales > 200000
-#'   )
+#'   pivot_values(total_sales = sum(sales))
+#'
 #' @export
 pivot_rows <- function(.data, ...) {
   set_cat(.data, "rows", ...)
@@ -28,7 +24,22 @@ pivot_columns <- function(.data, ...) {
   set_cat(.data, "columns", ...)
 }
 
-#' @rdname rows-cols
+#' Filter a pivot table
+#'
+#' @param .data A data.frame or a pivot_prep object
+#' @param ...   Variables or calculation to group by
+#'
+#' @examples
+#'
+#' retail_orders %>%
+#'   pivot_rows(status) %>%
+#'   pivot_columns(country) %>%
+#'   pivot_values(total_sales = sum(sales)) %>%
+#'   pivot_focus(
+#'     country %in% c("Japan", "USA", "UK"),
+#'     status == "Shipped",
+#'     total_sales > 200000
+#'   )
 #' @export
 pivot_focus <- function(.data, ...) {
   set_cat(.data, "focus", ...)

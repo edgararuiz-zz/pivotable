@@ -21,13 +21,16 @@ status](https://www.r-pkg.org/badges/version/pivotable)](https://CRAN.R-project.
       - [Values](#values)
       - [Rows](#rows)
       - [Columns](#columns)
-      - [Pivot](#pivot)
+  - [Pivot table operations](#pivot-table-operations)
+      - [Switch rows to columns](#switch-rows-to-columns)
       - [Filter](#filter)
       - [Drill](#drill)
       - [Totals](#totals)
+      - [Default values](#default-values)
       - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
-  - [Database connections](#database-connections)
+  - [Database, Spark and `data.table`
+    connections](#database-spark-and-data-table-connections)
       - [Measures and dimensions](#measures-and-dimensions)
   - [pivottabler](#pivottabler)
 
@@ -160,7 +163,9 @@ retail_orders %>%
 #> Total        194487.48  72212.86   144729.96  178979.19  150718.28  9291501.08  10032628.85
 ```
 
-### Pivot
+## Pivot table operations
+
+### Switch rows to columns
 
 Instead of “manually” switching the content of `pivot_rows()` and
 `pivot_columns()`, specially during data exploration, simply pipe the
@@ -393,6 +398,27 @@ retail_orders %>%
 #>             USA          3372204.28
 ```
 
+### Default values
+
+By themselves, `pivot_rows()` and `pivot_columns()` will only provide a
+list of the unique values of the data frame. There is a way to setup a
+default aggregation by using `pivot_default_values()`
+
+``` r
+pivot_default_values(n())
+
+retail_orders %>%
+  pivot_rows(status)
+#>             n()  
+#> Cancelled     4  
+#> Disputed      3  
+#> In Process    6  
+#> On Hold       4  
+#> Resolved      4  
+#> Shipped     286  
+#> Total       307
+```
+
 ### Convert to tibble
 
 The `as_tibble()` function is supported to convert the resulting pivot
@@ -485,7 +511,7 @@ orders %>%
 #> Total       129753.6  140836.19  174504.9  201609.55  192673.11  168082.56  187731.88  197809.3  263973.36  491029.46  1029837.66  261876.46  3439718.03  316577.42  311419.53  205733.73  206148.12  228080.73  186255.32  327144.09  461501.27  320750.91  552924.25  1038709.19  372802.66  4528047.22  295270.06  358186.18  320447.04  131218.33  363344.18  1468465.79  9436231.04
 ```
 
-## Database connections
+## Database, Spark and `data.table` connections
 
 Because `pivotable` uses `dplyr` commands to create the aggregations.
 This allows `pivotable` to take advantage of the same integration that

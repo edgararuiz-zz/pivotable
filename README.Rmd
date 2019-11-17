@@ -29,6 +29,8 @@ toc <- function() {
   links <- trimws(gsub("`", "", titles))
   links <- tolower(links)
   links <- trimws(gsub(" ", "-", links))
+  links <- trimws(gsub("\\.", "-", links))
+  links <- trimws(gsub("\\,", "", links))
   toc_list <- lapply(
     seq_along(titles),
     function(x) {
@@ -57,13 +59,15 @@ toc <- function() {
     - [Values](#values)
     - [Rows](#rows)
     - [Columns](#columns)
-    - [Pivot](#pivot)
+  - [Pivot table operations](#pivot-table-operations)
+    - [Switch rows to columns](#switch-rows-to-columns)
     - [Filter](#filter)
     - [Drill](#drill)
     - [Totals](#totals)
+    - [Default values](#default-values)
     - [Convert to tibble](#convert-to-tibble)
   - [Define dimensions and measures](#define-dimensions-and-measures)
-  - [Database connections](#database-connections)
+  - [Database, Spark and `data.table` connections](#database-spark-and-data-table-connections)
     - [Measures and dimensions](#measures-and-dimensions)
   - [pivottabler](#pivottabler)
 
@@ -133,7 +137,9 @@ retail_orders %>%
   pivot_values(sum(sales))
 ```
 
-### Pivot
+## Pivot table operations 
+
+### Switch rows to columns
 
 Instead of "manually" switching the content of `pivot_rows()` and `pivot_columns()`, specially during data exploration, simply pipe the code to the `pivot_flip()` command.  
 
@@ -236,6 +242,18 @@ retail_orders %>%
 ```
 
 
+### Default values
+
+By themselves, `pivot_rows()` and `pivot_columns()` will only provide a list of the unique values of the data frame.  There is a way to setup a default aggregation by using `pivot_default_values()`
+
+```{r}
+pivot_default_values(n())
+
+retail_orders %>%
+  pivot_rows(status)
+```
+
+
 ### Convert to tibble
 
 The `as_tibble()` function is supported to convert the resulting pivot table into a rectangular `tibble()`
@@ -287,7 +305,7 @@ orders %>%
 ```
 
 
-## Database connections
+## Database, Spark and `data.table` connections
 
 Because `pivotable` uses `dplyr` commands to create the aggregations.  This allows `pivotable` to take advantage of the same integration that `dplyr` has, such as Spark, databases and `data.table`.   
 
@@ -328,7 +346,6 @@ orders_db %>%
   pivot_columns(status) %>%
   pivot_values(sales_total)
 ```
-
 
 ```{r}
 dbDisconnect(con)
