@@ -345,46 +345,53 @@ retail_orders %>%
   pivot_rows(status, country) %>%
   pivot_values(sum(sales)) %>%
   pivot_totals(
-    include_row_totals = FALSE
+    include_row_totals = TRUE
   )
-#>                          sum(sales)  
-#> Cancelled   Spain          50010.65  
-#>             Sweden         48710.92  
-#>             UK             50408.25  
-#>             USA            45357.66  
-#> Disputed    Australia      14378.09  
-#>             Denmark        26012.87  
-#>             Spain           31821.9  
-#> In Process  Australia      43971.43  
-#>             Belgium         8411.95  
-#>             France         43784.69  
-#>             Spain          35133.34  
-#>             USA            13428.55  
-#> On Hold     Sweden         26260.21  
-#>             USA           152718.98  
-#> Resolved    Austria        28550.59  
-#>             Denmark        24078.61  
-#>             Spain          53815.72  
-#>             USA            44273.36  
-#> Shipped     Australia     572273.58  
-#>             Austria       173511.94  
-#>             Belgium       100000.67  
-#>             Canada        224078.56  
-#>             Denmark       195545.67  
-#>             Finland       329581.91  
-#>             France       1067131.83  
-#>             Germany       220472.09  
-#>             Ireland        57756.43  
-#>             Italy         374674.31  
-#>             Japan         188167.81  
-#>             Norway         307463.7  
-#>             Philippines    94015.73  
-#>             Singapore     288488.41  
-#>             Spain        1044905.31  
-#>             Sweden        135043.08  
-#>             Switzerland   117713.56  
-#>             UK            428472.21  
-#>             USA          3372204.28
+#>                          sum(sales)   
+#> Cancelled   Spain           50010.65  
+#>             Sweden          48710.92  
+#>             UK              50408.25  
+#>             USA             45357.66  
+#>             Total          194487.48  
+#> Disputed    Australia       14378.09  
+#>             Denmark         26012.87  
+#>             Spain            31821.9  
+#>             Total           72212.86  
+#> In Process  Australia       43971.43  
+#>             Belgium          8411.95  
+#>             France          43784.69  
+#>             Spain           35133.34  
+#>             USA             13428.55  
+#>             Total          144729.96  
+#> On Hold     Sweden          26260.21  
+#>             USA            152718.98  
+#>             Total          178979.19  
+#> Resolved    Austria         28550.59  
+#>             Denmark         24078.61  
+#>             Spain           53815.72  
+#>             USA             44273.36  
+#>             Total          150718.28  
+#> Shipped     Australia      572273.58  
+#>             Austria        173511.94  
+#>             Belgium        100000.67  
+#>             Canada         224078.56  
+#>             Denmark        195545.67  
+#>             Finland        329581.91  
+#>             France        1067131.83  
+#>             Germany        220472.09  
+#>             Ireland         57756.43  
+#>             Italy          374674.31  
+#>             Japan          188167.81  
+#>             Norway          307463.7  
+#>             Philippines     94015.73  
+#>             Singapore      288488.41  
+#>             Spain         1044905.31  
+#>             Sweden         135043.08  
+#>             Switzerland    117713.56  
+#>             UK             428472.21  
+#>             USA           3372204.28  
+#>             Total         9291501.08  
+#> Total                    10032628.85
 ```
 
 A default can be set to control if the column or row totals are
@@ -528,6 +535,20 @@ orders <- retail_orders %>%
     sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
     sales_total = sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0))
     )
+
+orders
+#> pivot_prep
+#>  Dimensions
+#>    **Name**   - **Field / Calc** 
+#>    order_date - dim_hierarchy(...) 
+#>    status     - status 
+#>    country    - country 
+#>  Measures
+#>    **Name**    - **Aggregate Calc**
+#>    orders_qty  - n()
+#>    order_total - sum(sales)
+#>    sales_qty   - sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0))
+#>    sales_total - sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0))
 ```
 
 ``` r

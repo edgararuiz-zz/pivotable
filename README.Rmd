@@ -237,7 +237,7 @@ retail_orders %>%
   pivot_rows(status, country) %>%
   pivot_values(sum(sales)) %>%
   pivot_totals(
-    include_row_totals = FALSE
+    include_row_totals = TRUE
   )
 ```
 
@@ -304,6 +304,8 @@ orders <- retail_orders %>%
     sales_qty = sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0)),
     sales_total = sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0))
     )
+
+orders
 ```
 
 ```{r}

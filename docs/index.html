@@ -340,46 +340,53 @@
 <a class="sourceLine" id="cb14-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(status, country) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/pivot_values.html">pivot_values</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/pivot_totals.html">pivot_totals</a></span>(</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">include_row_totals =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">include_row_totals =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb14-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt;                          sum(sales)  </span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Cancelled   Spain          50010.65  </span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt;             Sweden         48710.92  </span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt;             UK             50408.25  </span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt;             USA            45357.66  </span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt; Disputed    Australia      14378.09  </span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt;             Denmark        26012.87  </span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt;             Spain           31821.9  </span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; In Process  Australia      43971.43  </span></a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;             Belgium         8411.95  </span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt;             France         43784.69  </span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt;             Spain          35133.34  </span></a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt;             USA            13428.55  </span></a>
-<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; On Hold     Sweden         26260.21  </span></a>
-<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt;             USA           152718.98  </span></a>
-<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt; Resolved    Austria        28550.59  </span></a>
-<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="co">#&gt;             Denmark        24078.61  </span></a>
-<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="co">#&gt;             Spain          53815.72  </span></a>
-<a class="sourceLine" id="cb14-25" data-line-number="25"><span class="co">#&gt;             USA            44273.36  </span></a>
-<a class="sourceLine" id="cb14-26" data-line-number="26"><span class="co">#&gt; Shipped     Australia     572273.58  </span></a>
-<a class="sourceLine" id="cb14-27" data-line-number="27"><span class="co">#&gt;             Austria       173511.94  </span></a>
-<a class="sourceLine" id="cb14-28" data-line-number="28"><span class="co">#&gt;             Belgium       100000.67  </span></a>
-<a class="sourceLine" id="cb14-29" data-line-number="29"><span class="co">#&gt;             Canada        224078.56  </span></a>
-<a class="sourceLine" id="cb14-30" data-line-number="30"><span class="co">#&gt;             Denmark       195545.67  </span></a>
-<a class="sourceLine" id="cb14-31" data-line-number="31"><span class="co">#&gt;             Finland       329581.91  </span></a>
-<a class="sourceLine" id="cb14-32" data-line-number="32"><span class="co">#&gt;             France       1067131.83  </span></a>
-<a class="sourceLine" id="cb14-33" data-line-number="33"><span class="co">#&gt;             Germany       220472.09  </span></a>
-<a class="sourceLine" id="cb14-34" data-line-number="34"><span class="co">#&gt;             Ireland        57756.43  </span></a>
-<a class="sourceLine" id="cb14-35" data-line-number="35"><span class="co">#&gt;             Italy         374674.31  </span></a>
-<a class="sourceLine" id="cb14-36" data-line-number="36"><span class="co">#&gt;             Japan         188167.81  </span></a>
-<a class="sourceLine" id="cb14-37" data-line-number="37"><span class="co">#&gt;             Norway         307463.7  </span></a>
-<a class="sourceLine" id="cb14-38" data-line-number="38"><span class="co">#&gt;             Philippines    94015.73  </span></a>
-<a class="sourceLine" id="cb14-39" data-line-number="39"><span class="co">#&gt;             Singapore     288488.41  </span></a>
-<a class="sourceLine" id="cb14-40" data-line-number="40"><span class="co">#&gt;             Spain        1044905.31  </span></a>
-<a class="sourceLine" id="cb14-41" data-line-number="41"><span class="co">#&gt;             Sweden        135043.08  </span></a>
-<a class="sourceLine" id="cb14-42" data-line-number="42"><span class="co">#&gt;             Switzerland   117713.56  </span></a>
-<a class="sourceLine" id="cb14-43" data-line-number="43"><span class="co">#&gt;             UK            428472.21  </span></a>
-<a class="sourceLine" id="cb14-44" data-line-number="44"><span class="co">#&gt;             USA          3372204.28</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt;                          sum(sales)   </span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Cancelled   Spain           50010.65  </span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt;             Sweden          48710.92  </span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt;             UK              50408.25  </span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt;             USA             45357.66  </span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt;             Total          194487.48  </span></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt; Disputed    Australia       14378.09  </span></a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt;             Denmark         26012.87  </span></a>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt;             Spain            31821.9  </span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;             Total           72212.86  </span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; In Process  Australia       43971.43  </span></a>
+<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt;             Belgium          8411.95  </span></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt;             France          43784.69  </span></a>
+<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt;             Spain           35133.34  </span></a>
+<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt;             USA             13428.55  </span></a>
+<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt;             Total          144729.96  </span></a>
+<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="co">#&gt; On Hold     Sweden          26260.21  </span></a>
+<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="co">#&gt;             USA            152718.98  </span></a>
+<a class="sourceLine" id="cb14-25" data-line-number="25"><span class="co">#&gt;             Total          178979.19  </span></a>
+<a class="sourceLine" id="cb14-26" data-line-number="26"><span class="co">#&gt; Resolved    Austria         28550.59  </span></a>
+<a class="sourceLine" id="cb14-27" data-line-number="27"><span class="co">#&gt;             Denmark         24078.61  </span></a>
+<a class="sourceLine" id="cb14-28" data-line-number="28"><span class="co">#&gt;             Spain           53815.72  </span></a>
+<a class="sourceLine" id="cb14-29" data-line-number="29"><span class="co">#&gt;             USA             44273.36  </span></a>
+<a class="sourceLine" id="cb14-30" data-line-number="30"><span class="co">#&gt;             Total          150718.28  </span></a>
+<a class="sourceLine" id="cb14-31" data-line-number="31"><span class="co">#&gt; Shipped     Australia      572273.58  </span></a>
+<a class="sourceLine" id="cb14-32" data-line-number="32"><span class="co">#&gt;             Austria        173511.94  </span></a>
+<a class="sourceLine" id="cb14-33" data-line-number="33"><span class="co">#&gt;             Belgium        100000.67  </span></a>
+<a class="sourceLine" id="cb14-34" data-line-number="34"><span class="co">#&gt;             Canada         224078.56  </span></a>
+<a class="sourceLine" id="cb14-35" data-line-number="35"><span class="co">#&gt;             Denmark        195545.67  </span></a>
+<a class="sourceLine" id="cb14-36" data-line-number="36"><span class="co">#&gt;             Finland        329581.91  </span></a>
+<a class="sourceLine" id="cb14-37" data-line-number="37"><span class="co">#&gt;             France        1067131.83  </span></a>
+<a class="sourceLine" id="cb14-38" data-line-number="38"><span class="co">#&gt;             Germany        220472.09  </span></a>
+<a class="sourceLine" id="cb14-39" data-line-number="39"><span class="co">#&gt;             Ireland         57756.43  </span></a>
+<a class="sourceLine" id="cb14-40" data-line-number="40"><span class="co">#&gt;             Italy          374674.31  </span></a>
+<a class="sourceLine" id="cb14-41" data-line-number="41"><span class="co">#&gt;             Japan          188167.81  </span></a>
+<a class="sourceLine" id="cb14-42" data-line-number="42"><span class="co">#&gt;             Norway          307463.7  </span></a>
+<a class="sourceLine" id="cb14-43" data-line-number="43"><span class="co">#&gt;             Philippines     94015.73  </span></a>
+<a class="sourceLine" id="cb14-44" data-line-number="44"><span class="co">#&gt;             Singapore      288488.41  </span></a>
+<a class="sourceLine" id="cb14-45" data-line-number="45"><span class="co">#&gt;             Spain         1044905.31  </span></a>
+<a class="sourceLine" id="cb14-46" data-line-number="46"><span class="co">#&gt;             Sweden         135043.08  </span></a>
+<a class="sourceLine" id="cb14-47" data-line-number="47"><span class="co">#&gt;             Switzerland    117713.56  </span></a>
+<a class="sourceLine" id="cb14-48" data-line-number="48"><span class="co">#&gt;             UK             428472.21  </span></a>
+<a class="sourceLine" id="cb14-49" data-line-number="49"><span class="co">#&gt;             USA           3372204.28  </span></a>
+<a class="sourceLine" id="cb14-50" data-line-number="50"><span class="co">#&gt;             Total         9291501.08  </span></a>
+<a class="sourceLine" id="cb14-51" data-line-number="51"><span class="co">#&gt; Total                    10032628.85</span></a></code></pre></div>
 <p>A default can be set to control if the column or row totals are displayed. The default is set to not show.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="reference/pivot_default_totals.html">pivot_default_totals</a></span>(</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="dt">include_column_totals =</span> <span class="ot">TRUE</span>, </a>
@@ -503,7 +510,21 @@
 <a class="sourceLine" id="cb19-12" data-line-number="12">    <span class="dt">order_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(sales),</a>
 <a class="sourceLine" id="cb19-13" data-line-number="13">    <span class="dt">sales_qty =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), <span class="dv">1</span>, <span class="dv">0</span>)),</a>
 <a class="sourceLine" id="cb19-14" data-line-number="14">    <span class="dt">sales_total =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(status <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"In Process"</span>, <span class="st">"Shipped"</span>), sales, <span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb19-15" data-line-number="15">    )</a></code></pre></div>
+<a class="sourceLine" id="cb19-15" data-line-number="15">    )</a>
+<a class="sourceLine" id="cb19-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb19-17" data-line-number="17">orders</a>
+<a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt; pivot_prep</span></a>
+<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt;  Dimensions</span></a>
+<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt;    **Name**   - **Field / Calc** </span></a>
+<a class="sourceLine" id="cb19-21" data-line-number="21"><span class="co">#&gt;    order_date - dim_hierarchy(...) </span></a>
+<a class="sourceLine" id="cb19-22" data-line-number="22"><span class="co">#&gt;    status     - status </span></a>
+<a class="sourceLine" id="cb19-23" data-line-number="23"><span class="co">#&gt;    country    - country </span></a>
+<a class="sourceLine" id="cb19-24" data-line-number="24"><span class="co">#&gt;  Measures</span></a>
+<a class="sourceLine" id="cb19-25" data-line-number="25"><span class="co">#&gt;    **Name**    - **Aggregate Calc**</span></a>
+<a class="sourceLine" id="cb19-26" data-line-number="26"><span class="co">#&gt;    orders_qty  - n()</span></a>
+<a class="sourceLine" id="cb19-27" data-line-number="27"><span class="co">#&gt;    order_total - sum(sales)</span></a>
+<a class="sourceLine" id="cb19-28" data-line-number="28"><span class="co">#&gt;    sales_qty   - sum(ifelse(status %in% c("In Process", "Shipped"), 1, 0))</span></a>
+<a class="sourceLine" id="cb19-29" data-line-number="29"><span class="co">#&gt;    sales_total - sum(ifelse(status %in% c("In Process", "Shipped"), sales, 0))</span></a></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">orders <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_rows</a></span>(status) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="reference/rows-cols.html">pivot_columns</a></span>(order_date) <span class="op">%&gt;%</span></a>
